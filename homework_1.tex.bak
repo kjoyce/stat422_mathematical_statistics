@@ -22,7 +22,7 @@
   \end{solution}
 
   \subproblem{ Find the mode of the gamma distribution}
-  \textbf{Solution}
+  \begin{solution}
   The density is given by
   $$
     f(x|r,\lambda) = \frac{\lambda}{\Gamma(r)} (\lambda x)^{r-1}e^{-\lambda x}I_{(0,\infty)}(x) \quad \text{ for } \lambda,r>0,
@@ -33,9 +33,8 @@
       &= \frac{\lambda^2}{\Gamma(r)} (\lambda x)^{r-2} e^{-\lambda x}\Big[ (r-1) - \lambda x\Big]. \\
 \end{align*}
   Note that when $r < 1$, $f$ is unbounded and thus no mode exists. When $ r = 1 $, $f'(x) < 0$ for all $x \in (0,\infty)$ so $f$ is maximized as $x\to0$, hence there is no mode since $0\notin(0,1)$.  Otherwise, $x = \frac{r-1}{\lambda}$ is a critical point. Moreover, $(r-1) - \lambda x$ is a line with negative slope $-\lambda$ and by the first derivative test, $f$ attains its maximum at $\frac{r-1}{\lambda}$ and, thus, is a mode.  
-  
-  \qed
-\newpage
+  \end{solution}
+
 \problem{ MGB III.15 Let $X$ be normally distributed with mean $\mu$ and variance $\sigma^2$.  Truncate the density of $X$ on the left at $a$ and the right at $b$, and then calculate the mean of the truncated distribution.  (Note that the mean of the truncated distribution should fall between $a$ and $b$.  Furthermore, if $a = \mu -c $ and $b = \mu +c$, then the mean of the truncated distribution is $\mu$.  }
 
 \begin{solution}
@@ -136,7 +135,7 @@ Let us evaluate the integral on the far right hand side via integration by parts
     &= 1 - \prod_i^{10} P(X_i < .8) & \text{ by independence } \\
     &= 1 - (.8)^n.
   \end{align*}
-  If we require that this event has at least a probability of $.95$ then $1 - (.8)^n \ge .95$ if and only if $n \log .8 \le \log .05$ if and only if $n \ge \frac{\log .05}{\log .8} \approx 13.43$. Hence, at least 14 fuses guarantees a probability of $.95$ of detonation.
+  If we require that this event has at least a probability of $.95$ then $1 - (.8)^n \ge .95$ if and only if $n \log .8 \le \log .05$ if and only if $n \ge \frac{\log .05}{\log .8} \approx 13.43$. Hence, 14 uses guarantees a $.95$ probability of detonation.
 \end{solution}
 
 \subproblem{ If the device has nine fuses what is the average life of the fuse that lasts the longest?}
@@ -149,9 +148,8 @@ Let us evaluate the integral on the far right hand side via integration by parts
   Hence, in the case of nine fuses the mean is $9/10$.
 \end{solution}
 
-\newpage
 
-\problem{ MGB V.13 Let $X_1$ and $X_2$ be independent standard normal random variables.  Let $Y_1 = X_1 + X_2$ and $Y_2 = X_1^2 + X_2^2$.}
+\problem{ MGB V.13 Let $X_1$ and $X_2$ be independent standard normal randiom variables.  Let $Y_1 = X_1 + X_2$ and $Y_2 = X_1^2 + X_2^2$.}
 
   \subproblem{ Show that the join moment generating function of $Y_1$ and $Y_2$ is 
   $$
@@ -188,8 +186,6 @@ The joint moment generating function is given by
   $$ 
   Moreover, the partial derivative of $M_{X_1,X_2}$ and $\partial/\partial t_1 M_{X_1,X_2}$ with respect to $t_2$ both involve the quotient rule so that the denominator is some power of $(2-t_2)$.  Hence $t_2$ is not a singularity of those equations and thus $E(X_1)E(X_2) = 0$ and $E(X_1 X_2) = 0$. Thus the correlation is $E(X_1 X_2) - E(X_1) E(X_2) = 0$.
 \end{solution}
-
-\newpage
 
 \problem{ MGB V.22  Kitty Oil Co. has has decided to drill for oil in 10 different locations; the cost of drilling at each location is \$10,000.  (Total cost is then \$100,000.)  The probability of finding oil in a given location is only $\frac15$, but if oil is found at a given location then the amount of money the company will get selling oil (excluding the initial \$10,000 drilling cost) from that location is an exponential random variable with mean \$50,000. Let $Y$ be the random variable that denotes the number of locations where oil is found, and let $Z$ denote the total amount of money received from selling oil from all the locations. }
 
@@ -232,9 +228,6 @@ The joint moment generating function is given by
     &= \bigcup_{y=1}^{10} P(Z>100,000,Y=y)
     &= \bigcup_{y=1}^{10} P(Z>100,000|Y=y)P(Y=y).
   \end{align*}
-
-  Continued on next page.
-\newpage 
   We can compute this with the following \texttt{R} code:
 \begin{verbatim}
 > sum((1-pgamma(100000,1:10,1/50000))*dbinom(1:10,10,1/5))
@@ -244,13 +237,12 @@ The joint moment generating function is given by
 
 \problem{ MGB V.54 Let $X_1$ and $X_2$ be independent random variables, each normally distributed with parameters $\mu = 0$ and $\sigma^2 = 1$. Find the joint distribution of $Y_1 = X_1^2 + X_2^2$ and $Y_2 = X_1/X_2$.  Find the marginal distribution of $Y_1$ and of $Y_2$.  Are $Y_1$ and $Y_2$ independent?}
 
-\textbf{Solution:}
-
+\begin{solution}
 Let us decompose $\RR \times \RR = A_1\cup A_2 \cup K$ where $A_1 = \big(\RR\times(-\infty,0)\big)$, $ A_2 = \big(\RR \times (0,\infty)\big)$, and  $K=\{(x_1,x_2)|x_1 = 0\text{ or }x_2=0\}$. Note that this union is disjoint and that the measure of $K$ is zero. Moreover, if $ g(x_1,x_2) = (x_1^2 + x_2^2, x_1/x_2) $, then $g$ is invertible on $A_1$ by
   $$ g_1^{-1}(x_1,x_2) = \sqrt{\frac{y_1}{y_2^2 +1}} (y_2,1) $$
 and on $A_2$ by
-  $$ g_2^{-1}(x_1,x_2) = \sqrt{\frac{y_1}{y_2^2 +1}} (-y_2,1) $$
-This key step in verifying this is noting that $y_2 = \sqrt{y_2^2}$ when $y_2>0$ and $y_2 = -\sqrt{y_2^2}$ when $y_2<0$. Calculating the Jacobian is straight-forward, but lengthy.  Summarized,
+  $$ g_1^{-1}(x_1,x_2) = \sqrt{\frac{y_1}{y_2^2 +1}} (-y_2,1) $$
+This key step in verifying this is noting that $y_2 = \sqrt{y_2^2}$ when $y_2>0$ and $y_2 = -\sqrt{y_2^2}$ when $y_2<0$. The Jacobian is
 $$
 \left|
 \begin{pmatrix}
@@ -263,12 +255,11 @@ $$
 Hence the joint distribution of $(Y_1,Y_2)$ is 
 \begin{align*}
   f_{Y_1,Y_2}(y_1,y_2) 
-  &= \frac{1}{2y_2^2 + 2} \Big[f_{X_1,X_2}(g_1^{-1}(y_1,y_2)) + f_{X_1,X_2}(g_2^{-1}(y_1,y_2))\Big]I_{(0,\infty)\times\RR}(y_1,y_2)\\
-\\
-  &= \frac{1}{y_2^2 + 1} \left[ \phi \left( \sqrt{\frac{y_1}{y_2^2+1}}y_2 \right) \phi \left( \sqrt{\frac{y_1}{y_2^2+1}} \right) \right] 
-  I_{(0,\infty)\times\RR}(y_1,y_2) & \text{ since $\phi$ is even,}\\
-  &= \frac{1}{y_2^2 + 1} \left[ \frac{1}{2\pi}\exp - \left( \frac{y_1}{y_2^2+1}y_2^2 + \frac{y_1}{y_2^2+1} \right)/2 \right] I_{(0,\infty)\times\RR}(y_1,y_2)
+  &= 2 \frac{1}{2y_2^2 + 2} \phi(y_1^2 + y_2^2)\phi\left(\frac{y_1}{y_2}\right) I_{(0,\infty)\times\RR}(y_1,y_2) \\
+  &= \frac{1}{y_2^2 + 1} \phi(y_1^2 + y_2^2)\phi\left(\frac{y_1}{y_2}\right) I_{(0,\infty)\times\RR}(y_1,y_2)
 \end{align*}
+
+\end{solution}
 
 \end{document}
 
