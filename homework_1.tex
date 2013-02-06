@@ -4,7 +4,7 @@
 \author{Kevin Joyce}
 \docdate{Kevin Joyce}
 \begin{document}
-\problem{ MGB III.3.2  }
+\problem{ MGB III.2  }
 
   \subproblem{ Find the mode of the beta distribution}
   \begin{solution}
@@ -32,10 +32,10 @@
     f'(x|r,\lambda) &= \frac{\lambda}{\Gamma(r)}\Big[ (r-1)\lambda(\lambda x)^{r-2}e^{-\lambda x} - \lambda (\lambda x)^{r-1}e^{-\lambda x} \Big] \\
       &= \frac{\lambda^2}{\Gamma(r)} (\lambda x)^{r-2} e^{-\lambda x}\Big[ (r-1) - \lambda x\Big]. \\
 \end{align*}
-  Note that when $r < 1$, $f$ is unbounded and thus no mode exists. When $ r = 1 $, $f'(x) < 0$ for all $x \in (0,\infty)$ so at $x=0$, $f$ is maximized and $0$ and, hence, is the mode.  Otherwise, $x = \frac{r-1}{\lambda}$ is a critical point. Moreover, $(r-1) - \lambda x$ is a line with negative slope $-\lambda$ and by the first derivative test, $f$ attains its maximum at $\frac{r-1}{\lambda}$ and is, thus, a mode.  
+  Note that when $r < 1$, $f$ is unbounded and thus no mode exists. When $ r = 1 $, $f'(x) < 0$ for all $x \in (0,\infty)$ so $f$ is maximized as $x\to0$, hence there is no mode since $0\notin(0,1)$.  Otherwise, $x = \frac{r-1}{\lambda}$ is a critical point. Moreover, $(r-1) - \lambda x$ is a line with negative slope $-\lambda$ and by the first derivative test, $f$ attains its maximum at $\frac{r-1}{\lambda}$ and, thus, is a mode.  
   \end{solution}
 
-\problem{ MGB III.3.15 Let $X$ be normally distributed with mean $\mu$ and variance $\sigma^2$.  Truncate the density of $X$ on the left at $a$ and the right at $b$, and then calculate the mean of the truncated distribution.  (Note that the mean of the truncated distribution should fall between $a$ and $b$.  Furthermore, if $a = \mu -c $ and $b = \mu +c$, then the mean of the truncated distribution is $\mu$.  }
+\problem{ MGB III.15 Let $X$ be normally distributed with mean $\mu$ and variance $\sigma^2$.  Truncate the density of $X$ on the left at $a$ and the right at $b$, and then calculate the mean of the truncated distribution.  (Note that the mean of the truncated distribution should fall between $a$ and $b$.  Furthermore, if $a = \mu -c $ and $b = \mu +c$, then the mean of the truncated distribution is $\mu$.  }
 
 \begin{solution}
   The truncation, $Y$, is distributed with the p.d.f. 
@@ -50,38 +50,63 @@
   Let $u = (y-\mu)/\sigma$ then $y/\sigma = u - \mu/\sigma$ and $dy = \sigma du$, so continuing from above, 
   \begin{align*}
     E(Y) &= \frac{1}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)}\int_{(a-\mu)/\sigma}^{(b-\mu)/\sigma} \Big( \sigma u \phi(u) - \mu \phi(u) \Big)du \\
-    & = \frac{1}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)}\int_{(a-\mu)/\sigma}^{(b-\mu)/\sigma}  \sigma u \phi(u)du  - \mu \\
-    & = \frac{\sigma}{\sqrt{2\pi}(\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a))}\int_{(a-\mu)/\sigma}^{(b-\mu)/\sigma}  u  e^{-u^2/2} du  - \mu. \\
+    & = \frac{1}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)}\int_{(a-\mu)/\sigma}^{(b-\mu)/\sigma}  \sigma u \phi(u)du  - \mu\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right] \\
+    & = \frac{\sigma}{\sqrt{2\pi}(\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a))}\int_{(a-\mu)/\sigma}^{(b-\mu)/\sigma}  u  e^{-u^2/2} du  + \mu. \\
   \end{align*}
   Let $w = u^2/2$, then $dw = u du$ and continuing from above 
   \begin{align*}
-    E(Y) &= \frac{\sigma}{\sqrt{2\pi}(\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a))}\int_{(a-\mu)^2/2\sigma^2}^{(b-\mu)^2/\sigma^2}  e^{-w} dw  - \mu. \\
-     &= \frac{\sigma^2(\phi_{\mu,\sigma}(a) - \phi_{\mu,\sigma}(b))}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)} - \mu. \\
+    E(Y) &= \frac{\sigma^2}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)}\cdot\frac{1}{\sigma\sqrt{2\pi}}\int_{(a-\mu)^2/(2\sigma^2)}^{(b-\mu)^2/(2\sigma^2)}  e^{-w} dw  + \mu. \\
+     &= \sigma^2\frac{\phi_{\mu,\sigma}(a) - \phi_{\mu,\sigma}(b)}{\Phi_{\mu,\sigma^2} (b) - \Phi_{\mu,\sigma^2}(a)} + \mu. \\
   \end{align*}
 \end{solution}
+\newpage
+\problem{ MGB III.17 Let $X$ be the life in hours of a radio tube.  Assume that $X$ is normally distributed with mean 200 and variance $\sigma^2$.  If a purchaser of such radio tubes requires that at least 90 percent of the tubes have lives exceeding 150 hours, what is the largest value of $\sigma$ can be and still have the purchaser satisfied? }
 
-\problem{ MGB III.3.17 Let $X$ be the life in hours of a radio tube.  Assume that $X$ is normally distributed with mean 200 and variance $\sigma^2$.  If a purchaser of such radio tubes requires that at least 90 percent of the tubes have lives exceeding 150 hours, what is the largest value of $\sigma$ can be and still have the purchaser satisfied? }
+\begin{solution}
+  Since $X\sim N(200,\sigma^2)$, we have that 
+  \begin{align*}
+    P(X\ge 150) &= 1 - \Phi_{200,\sigma^2}(150) \\
+    &= 1-\Phi\left(\frac{150-200}{\sigma^2}\right) \\
+    &= \Phi\left(\frac{50}{\sigma^2}\right) \ge .9 \\
+  \end{align*}
+  Note that $\Phi$ is strictly increasing and bounded between 0,1, hence it has a unique value $z^*$ such that $\Phi(z^*) = .9$ and $\Phi(z) \ge .9$ for all $z \ge z^*$.  Thus, we require $\frac{50}{\sigma^2} \ge z*$ or equivalently $\sigma^2\le \frac{50}{z^*}$ since both $z^*$ and $\sigma^2$ are greater than 0.  We can obtain a numerical estimate for the upper bound on the variance with the program \texttt{R} using the command \texttt{50/qnorm(.9)} which yields \texttt{39.01521}.
+\end{solution}
 
-\problem{ MGB III.3.19a The distribution given by 
+\problem{ MGB III.19a The distribution given by 
 $$
-  f(x|\beta) = \frac{1}{\beta^2} x e^{-1/2(x/b)^2}I_{(0,\infty)}(x)\quad \text{for } \beta>0
+  f(x|\beta) = \frac{1}{\beta^2} x e^{-\frac12(x/\beta)^2}I_{(0,\infty)}(x)\quad \text{for } \beta>0
 $$
 is called the \emph{Raleigh} distribution. Show that the mean and variance exist and find them.
 }
 
 \begin{solution}
+The $n$th moment of $X$ is given by
+\begin{align*}
+E(X^n) &= \int_0^\infty \frac{1}{\beta^2} x^{n+1} e^{-\frac12 (x/\beta)^2}\,dx\\
+  &= \int_0^\infty \beta^n (2u)^{\frac n2} e^{-u}du &\text{ where }u = \frac12 (x/\beta)^2\text{ and }du = x/\beta^2 dx \\
+  &= \beta^{n}2^{\frac n2} \Gamma\left(1+\frac n2\right).
+\end{align*}
+Thus $\mu = E(X) = \frac {2\beta}{ \sqrt 2} \sqrt{\pi} = \beta\sqrt{\frac{\pi}{2}}$ and $\sigma^2 = E(X^2) - E(X)^2 = 4 \beta^2 - \beta^2 \frac{\pi}{2} = \beta^2\frac{4-\pi}{2}$.
 \end{solution}
+\newpage
 
-\problem{ MGB III.3.20a The distribution given by
+\problem{ MGB III.20a The distribution given by
 $$
   F(x|\beta) = \frac{4}{\beta^3\sqrt{\pi}} x^2 e^{-x^2/\beta^2}I_{(0,\infty)}(x)\quad \text{for }\beta>0
 $$
 is called the \emph{Maxwell} distribution.  Show that the mean and variance exist and find them.}
 
 \begin{solution}
+The $n$th moment of $X$ is given by
+\begin{align*}
+E(X^n) &= \int_0^\infty \frac{4}{\beta^3 \sqrt\pi} x^{n+2} e^{-\frac12 (x/\beta)^2}\,dx\\
+  &= \frac 4{\sqrt\pi}\int_0^\infty \beta^n (2u)^{\frac{n+1}{2}} e^{-u}du &\text{ where }u = \frac12 (x/\beta)^2\text{ and }du = x/\beta^2 dx \\
+  &= \frac {\beta^n}{\sqrt\pi}2^{\frac {n+5}2} \Gamma\left(\frac {n+3}2\right).
+\end{align*}
+Thus $\mu = E(X) = \frac {2^4\beta}{ \sqrt \pi} $ and $\sigma^2 = E(X^2) - E(X)^2 = 4 \beta^2 - \beta^2 \frac{\pi}{2} = \beta^2\frac{4-\pi}{2}$.
 \end{solution}
 
-\problem{ MGB III.3.28 Show that 
+\problem{ MGB III.28 Show that 
 $$
   P(X \ge k) = \sum_{x=k}^{n} \binom nxp^x(1-p)^{n-x} = \frac{1}{B(k,n-k+1)}\int_0^pu^{k-1}(1-u)^{n-k}du
 $$
@@ -89,6 +114,17 @@ for $X$ a binomially distributed random variable.  That is, if $X$ is binomially
 }
 
 \begin{solution}
+Let us evaluate the integral on the far right hand side via integration by parts $n-k$ times.  That is,
+\begin{align*}
+&\frac{1}{B(k,n-k+1)}\int_0^pu^{k-1}(1-u)^{n-k}du \\
+&=\frac{1}{B(k,n-k+1)}\left( \left. (1-u)^{n-k} \frac{u^k}{k} \right|_0^p + \int_0^p \frac{u^k}{k} (n-k)(1-u)^{n-(k+1)}\,du\right)\\
+\cdots\\
+&=\frac{1}{B(k,n-k+1)}\sum_{x=k}^n \left[ \frac{(n-k)!}{(n-x)!}(1-p)^{n-k}\right] \cdot \left[\frac{(k-1)!}{x!}p^k \right]\\
+&=\frac{\Gamma(n+1)}{\Gamma(k)\Gamma(n-k+1)}\sum_{x=k}^n \left[ \frac{(n-k)!}{(n-x)!}(1-p)^{n-k}\right] \cdot \left[\frac{(k-1)!}{x!}p^k \right]\\
+&=\frac{n!}{(k-1)!(n-k)!}\sum_{x=k}^n \left[ \frac{(n-k)!}{(n-x)!}(1-p)^{n-k}\right] \cdot \left[\frac{(k-1)!}{x!}p^k \right]\\
+& = \sum_{x=k}^{n} \binom nxp^x(1-p)^{n-x}  = P(X \ge k)
+\end{align*}
+
 \end{solution}
 
 \problem{ MGB V.10 A certain explosive device will detonate if any one of $n$ short-lived fuses lasts longer than .8 seconds.  Let $X_i$ represent the life of the $i$th fuse.  It can be assumed that each $X_i$ is uniformly distributed over the interval 0 to 1 second.  Furthermore, it can be assumed that the $X_i$'s are independent.  }

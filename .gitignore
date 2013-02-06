@@ -58,5 +58,11 @@ nosetests.xml
 *.mtc1
 *.out
 *.synctex.gz
-*.pdf
 
+# Ignore these big copywrited book pdfs
+MGB3rdSearchable.pdf
+chapter3.pdf
+
+# Vim stuff
+*.swp
+*.swo
