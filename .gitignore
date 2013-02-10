@@ -66,3 +66,4 @@ chapter3.pdf
 # Vim stuff
 *.swp
 *.swo
+*.bak
