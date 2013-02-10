@@ -16,22 +16,56 @@
 
 \problem{MGB VI.6}
   
-  \subproblem{ From a random sample of size 2 from a population with finite $(2r)$th moment, find $E(M_r)$ and $Var(M_r)$, where $\ds{M_r = (1/n) \sum_{i=1}^n (X_i - \bar X_n)^n }.$}
+  \subproblem{ From a random sample of size 2 from a population with finite $(2r)$th moment, find $E(M_r)$ and $Var(M_r)$, where $\ds{M_r = (1/n) \sum_{i=1}^n (X_i - \bar X_n }.$}
+
+  \begin{solution}
+  Note that $\bar X = (X_1 + X_2)/2$, and thus we can first calculate
+  \begin{align*}
+    M_r 
+    &= \frac 12 \left(X_1 - \frac{X_1 + X_2}{2}\right)^r + \frac12 \left(X_2 - \frac{X_1 + X_2}{2}\right)^r\\
+    &\stackrel{\dagger}{=} \frac 12 \left(\frac{X_1 - X_2}{2}\right)^r + \frac12 \left(\frac{X_2 - X_1}{2}\right)^r.
+  \end{align*} 
+  When $r$ is odd, we have that $M_r \equiv 0$, hence $E(M_r) = 0$.  Otherwise
+  \begin{align*}
+  E[M_r] 
+    &= E\left[\left(\frac{X_1 - X_2}{2}\right)^r\, \right]\\
+    &= E\left[2^{-r}\sum_{i=0}^r (-1)^i X_1^{r-i} X_2^i \right]\\
+    &= 2^{-r}\sum_{i=0}^r (-1)^i E\left[X_1^{r-i}X_2^i\right]  \\
+    &= 2^{-r}{\mu'}_{r}\sum_{i=0}^r (-1)^i\\
+    &= 2^{-r}{\mu'}_{r},
+  \end{align*} 
+  Where the last equality follows from $r$ being even. For the variance, note that if $r$ is odd $E\left[M_r^2\right] = 0$ by $\dagger$.  If $r$ is even, 
+  \begin{align*}
+    E\left[M_r^2\right] &= E\left[ \left(\frac{X_1 - X_2}{2}\right)^{2r}\right] \\ & = E\left[ M_{2r} \right]\\
+    & = 2^{-2r} {\mu'}_{2r}.
+  \end{align*}
+  Thus, $Var[M_r] = 2^{-2r}({\mu'}_{2r} - {{\mu'}_r}^2).$
+
+  \end{solution}
 
   \subproblem{ For a random sample of size $n$ from a population with mean $\mu$ and $r$th central moment $\mu_r$, show that 
   $$
     E\left[\frac 1n \sum_{i=1}^n (X_i - \mu)^r\right] = \mu_r
   $$
   }
-\newpage
+
+  \begin{solution}
+  Well, 
+  \begin{align*}
+    E\left[\frac 1n \sum_{i=1}^n \left(X_i - \mu\right)^r\right] 
+    &= \frac 1n \sum_{i=1}^nE\left[ \left(X_i - \mu\right)^r\right] \\
+    &= \frac 1n \sum_{i=1}^n \mu_r \\
+    &= \frac 1n n \mu_r = \mu_r. 
+  \end{align*}
+  \end{solution}
 
 \problem{MGB VI.9 Suppose that $\bar X_1$ and and $\bar X_2$ are means of two samples of size $n$ from a population with variance $\sigma^2$.  Determine $n$ so that the probability will be about .01 that the two sample means will differ by more than $\sigma.$  (Consider $Y = \bar X_1 - \bar X_2.$)}
 \newpage
 
-\problem{MGB VI.10 Suppose that light bulbs made by a standard process have an average life of 2000 hours with a staandard deviation of 250 hours, and suppose that it is considered worthwhile to replace the process if the mean life can be increased by at least 10 percent.  An engineer wishes to test a proposed new process, and he is willing to assume that the standard deviation of the distribution of lives is about the same as for the standard process.  How large a sample should he examine if he wihshes the probability to be about .01 that he will fail to adopt the new processif in fact it produces bulbs with a mean life of 2250 hours?}
+\problem{MGB VI.10 Suppose that light bulbs made by a standard process have an average life of 2000 hours with a standard deviation of 250 hours, and suppose that it is considered worthwhile to replace the process if the mean life can be increased by at least 10 percent.  An engineer wishes to test a proposed new process, and he is willing to assume that the standard deviation of the distribution of lives is about the same as for the standard process.  How large a sample should he examine if he wishes the probability to be about .01 that he will fail to adopt the new process if in fact it produces bulbs with a mean life of 2250 hours?}
 \newpage
 
-\problem{MGB VI.14}
+\problem{MGB VI.14 Find the third moment about the mean of the sample mean for sample sizes of size $n$ from a Bernoulli population.  Show that it approaches 0 as $n$ becomes large (as it must if the normal approximation is to be valid).}
 
 \end{document}
 
