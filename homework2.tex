@@ -1,0 +1,38 @@
+\documentclass{homework}
+\title{Homework 2}
+\course{Stat 422: Mathematical Statistics}
+\author{Kevin Joyce}
+\docdate{Kevin Joyce}
+\begin{document}
+\renewcommand{\bar}{\overline}
+\problem{MGB VI.5 Let $X_1,\dots, X_n$ be a random sample from a distribution which has a finite fourth moment.  Define $\mu = E(X_1), \sigma^2 = Var(X_1), \mu_3 = E\left[ (X_1 - \mu)^3 \right], \mu_4 = E\left[ (X_1 - \mu)^4 \right], \bar X = (1/n) \sum X_i, S^2 = [1/(n-1)] \sum (X_i - \bar X)^2.$  }
+  
+  \subproblem{ Does $\ds{S^2 = [1/2n(n-1)] \sum_{i=1}^n \sum_{j=1}^n (X_i - X_j)^2}$ ? }
+
+  \subproblem{ Find $Var( S^2 )$. }
+
+  \subproblem{ Find $Cov( \bar X, S^2 )$ and note that $Cov( \bar X, S^2 ) = 0$ if $\mu_3 = 0$. }
+\newpage
+
+\problem{MGB VI.6}
+  
+  \subproblem{ From a random sample of size 2 from a population with finite $(2r)$th moment, find $E(M_r)$ and $Var(M_r)$, where $\ds{M_r = (1/n) \sum_{i=1}^n (X_i - \bar X_n)^n }.$}
+
+  \subproblem{ For a random sample of size $n$ from a population with mean $\mu$ and $r$th central moment $\mu_r$, show that 
+  $$
+    E\left[\frac 1n \sum_{i=1}^n (X_i - \mu)^r\right] = \mu_r
+  $$
+  }
+\newpage
+
+\problem{MGB VI.9 Suppose that $\bar X_1$ and and $\bar X_2$ are means of two samples of size $n$ from a population with variance $\sigma^2$.  Determine $n$ so that the probability will be about .01 that the two sample means will differ by more than $\sigma.$  (Consider $Y = \bar X_1 - \bar X_2.$)}
+\newpage
+
+\problem{MGB VI.10 Suppose that light bulbs made by a standard process have an average life of 2000 hours with a staandard deviation of 250 hours, and suppose that it is considered worthwhile to replace the process if the mean life can be increased by at least 10 percent.  An engineer wishes to test a proposed new process, and he is willing to assume that the standard deviation of the distribution of lives is about the same as for the standard process.  How large a sample should he examine if he wihshes the probability to be about .01 that he will fail to adopt the new processif in fact it produces bulbs with a mean life of 2250 hours?}
+\newpage
+
+\problem{MGB VI.14}
+
+\end{document}
+
+
