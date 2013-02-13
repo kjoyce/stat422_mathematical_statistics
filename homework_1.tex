@@ -1,4 +1,4 @@
-\documentclass{homework}
+\documentclass{stat_homework}
 \title{Homework 1}
 \course{Stat 422: Mathematical Statistics}
 \author{Kevin Joyce}
@@ -197,13 +197,13 @@ The joint moment generating function is given by
 
 \begin{solution}
   Note that $Y \sim \text{Binomial}(10,\frac15)$ and that if each site $Z_i \sim \text{Exponential}\left(\frac{1}{50000}\right)$, then 
-    $$(Z|Y=y) = \sum_{i=1}^y Z_i = \text{Gamma}\left(y,\frac{1}{50000}\right).\quad \text{(Thanks to a hint from Solomon.)}$$
+    $$(Z|Y=y) = \sum_{i=1}^y Z_i \sim \text{Gamma}\left(y,\lambda \right).\quad \text{(Thanks to a hint from Solomon.)}$$
   We can use this expression and Adam's Law to calculate the expectation of $Z$. That is, if $\lambda = \frac{1}{50000}$ then
   \begin{align*}
     E(Z) 
       &= E_Y\left(E\left( Z|Y\right) \right) \\
       &= E_Y\left( \frac{Y}{\lambda} \right) \\
-      &= \frac{10 \cdot \frac 15}{50000} = 10000.\\
+      &= 10 \cdot \frac 15 \cdot 50,000 = 100,000.\\
   \end{align*}
 \end{solution}
 
@@ -229,8 +229,8 @@ The joint moment generating function is given by
   By the law of total probability and the definition of conditional probability, 
   \begin{align*}
     P(Z>100,000) 
-    &= \bigcup_{y=1}^{10} P(Z>100,000,Y=y)
-    &= \bigcup_{y=1}^{10} P(Z>100,000|Y=y)P(Y=y).
+    &= P(\bigcup_{y=1}^{10} Z>100,000,Y=y)
+    &= \sum_{y=1}^{10} P(Z>100,000|Y=y)P(Y=y).
   \end{align*}
 
   Continued on next page.
