@@ -5,18 +5,145 @@
 \docdate{Kevin Joyce}
 \begin{document}
 \renewcommand{\bar}{\overline}
+\newcommand{\ssum}{\sum_{i=1}^n\sum_{j=1}^n}
+\newcommand{\sssum}{\ssum\sum_{k=1}^n}
+\newcommand{\ssssum}{\sssum\sum_{l=1}^n}
 \problem{MGB VI.5 Let $X_1,\dots, X_n$ be a random sample from a distribution which has a finite fourth moment.  Define $\mu = E(X_1), \sigma^2 = Var(X_1), \mu_3 = E\left[ (X_1 - \mu)^3 \right], \mu_4 = E\left[ (X_1 - \mu)^4 \right], \bar X = (1/n) \sum X_i, S^2 = [1/(n-1)] \sum (X_i - \bar X)^2.$  }
   
   \subproblem{ Does $\ds{S^2 = [1/2n(n-1)] \sum_{i=1}^n \sum_{j=1}^n (X_i - X_j)^2}$ ? }
+  \begin{solution}
+  Well,
+  \begin{align*}
+    \sum_{i=1}^n \sum_{j=1}^n (X_i - X_j)^2 
+    &= \sum_{i=1}^n \sum_{j=1}^n (X_i - \bar X + \bar X - X_j)^2\\
+    &= \sum_{i=1}^n \sum_{j=1}^n  \Big[(X_i - \bar X)^2 +2(X_i - \bar X) (\bar X - X_j) + (\bar X - X_j)^2\Big]\\
+    &= \ssum (X_i - \bar X)^2 +2 \ssum (X_i - \bar X) (\bar X - X_j) + \ssum (\bar X - X_j)^2\\
+    &= \ssum (X_i - \bar X)^2 +2 \sum_{i=1}^n(X_i - \bar X) \cdot 0 + \ssum (\bar X - X_j)^2\\
+    &= \cdot \sum_{i=1}^n n\cdot (X_i - \bar X)^2 + n\cdot\sum_{j=1}^{n} (\bar X - X_j)^2\\
+    &= 2n \cdot \sum_{i=1}^n (X_i - \bar X)^2.
+  \end{align*}
+  Dividing both sides of the equality above by $1/2n(n-1)$ establishes the equality.  
+  \end{solution}
 
-  \subproblem{ Find $Var( S^2 )$. }
+  \subproblem{ Show $\ds{Var( S^2 ) = \frac 1n \left( \mu_4 - \frac{n-3}{n-1}\sigma^4\right)}$. }
+  \begin{solution}
+  Note that
+  \begin{align*}
+  S^2 &=\frac{1}{n-1}\sum_{i=1}^n\Big[(X_i-\mu) - (\bar X - \mu)\Big]^2\\
+      &=\frac{1}{n-1}\sum_{i=1}^n(X_i- \mu)^2 - 2 \sum_{i=1}^n \sum_{i=1}^n(X_i - \mu)(\bar X - \mu) + \sum_{i=1}^n  (\bar X - \mu)^2\\
+      &=\frac{1}{n-1}\sum_{i=1}^n(X_i- \mu)^2 + 0 - n(\bar X - \mu)^2.
+  \end{align*}
+  So,
+  \begin{align}
+  (S^2)^2 
+    &=\frac{1}{(n-1)^2}\left[\sum_{i=1}^n(X_i- \mu)^2 - n(\bar X - \mu)^2\right]^2\nonumber\\
+    &=\frac{1}{(n-1)^2}\left[\sum_{i=1}^n(X_i- \mu)^2 - \frac 1n (n \bar X - n \mu)(n \bar X - n\mu)\right]^2\nonumber\\
+    &=\frac{1}{(n-1)^2}\left[\sum_{i=1}^n(X_i- \mu)^2 - \frac 1n \sum_{i=1}^n(X_i - \mu)\sum_{j=1}^n(X_j - \mu)\right]^2 \label{ssquare}\\
+    &\stackrel{\dagger}{=}\frac{1}{(n-1)^2}\left[\ssum A_{i,j} - \frac 2n \sssum B_{i,j,k} + \frac 1{n^2}\ssssum C_{i,j,k,l}\right],\nonumber
+  \end{align}
+  where 
+  \begin{align*}
+    A_{i,j}  &= (X_i- \mu)^2(X_j-\mu)^2,\\ 
+    B_{i,j,k} &= (X_i - \mu)^2(X_j - \mu)(X_k - \mu),\\
+    C_{i,j,k,l} &= (X_i - \mu)(X_j - \mu)(X_k - \mu)(X_l - \mu).
+  \end{align*}
+  By linearity, let us calculate the expectation of $(S^2)^2$ by calculating the expectation of the right hand side of $\dagger$ by each term separately. The main strategy is to partition each integer lattice into disjoint sets and add over them.  \footnote{In many of the equalities above, we use the independence of distinct $X_i$ and the fact that $g(X_i,...)$ are also independent for arbitrary $g$. These are labeled with \textdaggerdbl.} \footnote{ We use the fact that the number of terms in the double sum with two non equal indices is $_nP_2 = n(n-1)$. These are labeled with $\star$.} That is,
+  \begin{align*}
+    E\left[\ssum A_{i,j}\right] 
+    &= E\left[\sum_{i=j} (X_i-\mu)^4 + \sum_{i\not=j}(X_i-\mu)^2(X_j-\mu)^2\right]\\
+    &\stackrel{\ddagger}{=} \sum_{i=j} E(X_i-\mu)^4 + \sum_{i\not=j}E(X_i-\mu)^2E(X_j-\mu)^2\\
+    &\stackrel{\star}{=} n\mu_4 + n(n-1)\sigma^2\cdot\sigma^2,
+  \end{align*}
+  and
+  \begin{align*}
+    E\left[\sssum B_{i,j,k}\right]
+%    &=E\left[\sum_{i=j=k} (X_i-\mu)^3 + \sum_{\substack{i\not= j\\j=k}} (X_i-\mu)^2(X_j-\mu)^2 +\right.\\\left. &2\sum_{\substack{i=j \\ j\not=k}}(X_i-\mu)^3(X_k-\mu) \sum_{i\not=k\not=j}B_{i,j,k}\right] \\
+    &=E\left[\sum_{i=j=k} B_{i,j,k} + \sum_{\substack{i\not= j\\j=k}} B_{i,j,k} + 2\sum_{\substack{i=j \\ j\not=k}} B_{i,j,k} + \sum_{i\not=k\not=j}B_{i,j,k}\right] \\
+    &\stackrel{\dagger}{=}\sum_{i=j=k} E(X_i-\mu)^4 + \sum_{\substack{i\not= j\\j=k}} E(X_i-\mu)^2E(X_j-\mu)^2 + 2\sum_{\substack{i=j \\ j\not=k}} 0 + \sum_{i\not=k\not=j} 0 \\
+    &\stackrel{\star}{=} n\mu_4 + n(n-1)\sigma^2\cdot\sigma^2,
+  \end{align*}
+  and
+  \begin{align*}
+    E\left[\ssssum C_{i,j,k,l}\right]
+    &=E\left[
+    \sum_{i=j=k=l} C_{i,j,k,l} + 
+    3\sum_{\substack{i=j\\j\not=k\\k=l}} C_{i,j,k,l} +\dots
+    \right.\\
+    &\left.
+    4 \sum_{\substack{i\not=j\\j=k=l}} C_{i,j,k,l} +
+    4 \sum_{\substack{i\not=j\not=k\\k=l}} C_{i,j,k,l} +
+     \sum_{\substack{i\not=j\not=k\not=l}} C_{i,j,k,l}   
+    \right]\\
+    &\stackrel{\ddagger}{=}\left[
+    \sum_{i=j=k=l} E(X_i-\mu)^4 + 
+    3\sum_{\substack{i=j\\j\not=k\\k=l}} E(X_i-\mu)^2E(X_k-\mu)^2 +\dots \right.
+    \\
+    &\left.
+    \hspace{2cm}4 \sum_{\substack{i\not=j\\j=k=l}} 0 +
+    4 \sum_{\substack{i\not=j\not=k\\k=l}} 0 +
+     \sum_{\substack{i\not=j\not=k\not=l}} 0 \right] \\
+    &\stackrel{\star}{=}n \mu_4 + 3n(n-1)\sigma^4.
+  \end{align*}
+  So the expected value of \textdagger,
+  \begin{align*}
+    E\left[(S^2)^2 \right] 
+    &\stackrel{\dagger}{=}
+    \frac{1}{(n-1)^2}\left[\left(n\mu_4 + n(n-1)\sigma^4\right) - \frac 1n \left(n\mu_4 + n(n-1)\sigma^4\right) + \frac 1{n^2}(n\mu_4 + n(n-1)3\sigma^4) \right]\\
+    &=\frac{1}{(n-1)^2} \left[ n\mu_4\left(1 - \frac2n + \frac1{n^2}\right) + n(n-1)\sigma^4\left(1 - \frac 2n + \frac 3{n^2}\right) \right]\\
+    &=\frac{1}{(n-1)^2} \left[ n\mu_4\left(\frac{n^2 - 2n + 1}{n^2}\right) + n(n-1)\sigma^4\left(\frac{n^2 - 2n + 3}{n^2}\right) \right]\\
+    &=\frac{1}{(n-1)^2} \left[ \mu_4\left(\frac{(n-1)^2}{n}\right) + (n-1)\sigma^4\left(\frac{n^2 - 2n + 3}{n}\right) \right]\\
+    &=\frac{1}{n} \left[ \mu_4 + \sigma^4\left(\frac{n^2 - 2n + 3}{n-1}\right) \right].
+  \intertext{So,}
+  Var\left[S^2\right] &= E\left[(S^2)^2 \right]  - E\left(S^2\right)^2\\
+  &= \frac{1}{n} \left[ \mu_4 + \sigma^4\left(\frac{n^2 - 2n + 3}{n-1}\right) \right] - \sigma^4\\
+  &= \frac{1}{n} \left[ \mu_4 + \sigma^4\left(\frac{n^2 - 2n + 3- n(n-1)}{n-1}\right) \right]\\
+  &= \frac{1}{n} \left[ \mu_4 - \sigma^4\left(\frac{n - 3}{n-1}\right) \right].
+  \end{align*} 
+  \end{solution}
 
   \subproblem{ Find $Cov( \bar X, S^2 )$ and note that $Cov( \bar X, S^2 ) = 0$ if $\mu_3 = 0$. }
-\newpage
+  \begin{solution}
+  As in (b), we seek to decompose $S^2 \bar X$ into sums of $X_i - \mu$.  That is, first note
+  \begin{equation}  
+    S^2 \bar X = \frac 1n S^2 \sum_{i=1}^n (X_i - \mu) + S^2 \mu.
+    \label{cov5}
+  \end{equation}
+  So we consider
+  \begin{align*}
+    S^2 \left(\sum_{i=1}^n X_i - \mu\right)
+    &=\frac 1{n-1} \left( \sum_{i=1}^n (X_i -\mu)^2 - \frac 1n \sum_{i=1}^n\sum_{j=1}^n (X_i - \mu)(X_j - \mu) \right)\sum_{i-1}^n (X_i - \mu) &\text{ as in \eqref{ssquare}, }  \\
+    &=\frac 1{n-1} \left( \ssum(X_i -\mu)^2(X_j-\mu) - \frac 1n \sssum(X_i - \mu)(X_j - \mu)(X_k - \mu) \right).\\
+    &=\frac 1{n-1} \left( \ssum A_{i,j} - \frac 1n \sssum B_{i,j,k} \right),
+  \end{align*}
+  where
+  \begin{align*}
+  A_{i,j} &= (X_i -\mu)^2(X_j-\mu),\\
+  B_{i,j,k} &= (X_i - \mu)(X_j - \mu)(X_k - \mu).
+  \end{align*} 
+  We proceed as in (b), by partitioning each sum into disjoint sets of tuples of integers such that we can calculate expected values.  I.e.
+  \begin{align*}
+    E\left[\ssum A_{i,j}\right]
+    &= \sum_{i=j} E(X_j-\mu)^3 + \sum_{i\not=j} E(X_j-\mu)^2(E(X_j) - \mu)\\
+    &= n\mu_3,\\
+  \intertext{ and }
+    E\left[\sssum B_{i,j,k} \right]
+    &= \sum_{i=j=k} E(X_i - \mu)^3 + 3 \sum_{\substack{i=j\\i\not=k}} 0 + \sum_{i\not=j\not=k} 0\\
+    &= n \mu_3.
+  \end{align*}
+  Taking the expected value of \eqref{cov5},
+  \begin{align*}
+  E\left[S^2 \bar X\right] 
+  &= \frac {1}{n(n-1)} \left( n\mu_3  - \mu_3\right) +\frac{\sigma^2 \mu}{n} \\
+  \intertext{so}
+  Cov(S^2,\bar X)
+  &= E\left[S^2 \bar X\right] - E\left[ S^2 \right] E[ \bar X] \\
+  &= \frac {1}{n(n-1)} \left( n\mu_3  - \mu_3\right) +\sigma^2 \mu - \sigma^2 \mu = \frac {1}{n(n-1)} \left( n\mu_3  - \mu_3\right)\\
+  \end{align*}
+  \end{solution}
 
 \problem{MGB VI.6}
   
-  \subproblem{ From a random sample of size 2 from a population with finite $(2r)$th moment, find $E(M_r)$ and $Var(M_r)$, where $\ds{M_r = (1/n) \sum_{i=1}^n (X_i - \bar X_n }.$}
+  \subproblem{ From a random sample of size 2 from a population with finite $(2r)$th moment, find $E(M_r)$ and $Var(M_r)$, where $\ds{M_r = (1/n) \sum_{i=1}^n (X_i - \bar X_n )}.$}
 
   \begin{solution}
   Note that $\bar X = (X_1 + X_2)/2$, and thus we can first calculate
@@ -60,12 +187,92 @@
   \end{solution}
 
 \problem{MGB VI.9 Suppose that $\bar X_1$ and and $\bar X_2$ are means of two samples of size $n$ from a population with variance $\sigma^2$.  Determine $n$ so that the probability will be about .01 that the two sample means will differ by more than $\sigma.$  (Consider $Y = \bar X_1 - \bar X_2.$)}
-\newpage
+\begin{solution}
+  We assume that $\bar X_1$ and $\bar X_2$ are independent.  Thus 
+  $$Var(Y) = Var(\bar X_1) + Var(-\bar X_2) = \frac{2\sigma^2}{n}.$$
+  By Chebyechev's inequality,
+  \begin{align*}
+  P(|Y| \ge \sigma ) 
+  &= P\left( |Y| \ge \sqrt{\frac n2} \sqrt{\frac 2n}\sigma\right) \\
+  &\le \frac 2n. 
+  \end{align*}
+  Thus if $\frac 2n < .01 $, or rather $n > 200$, we can guarantee $P(|Y| \ge \sigma) < .01$.
+
+  Alternatively, let us assume$^\dagger$ that the population is distributed such that $n$ is large enough so that $F_{n}(x) \approx \Phi(x)$ and $G_n(x) \approx \Phi(x)$ where $\Phi$ is the c.d.f. for the standard normal distribution and $F_{n}$ and $G_{n}$ are the c.d.f.'s for the random variables $(\bar X_{1,2} -\mu)/(\sigma/\sqrt {n})$ respectively (guaranteed by the central limit theorem). Thus,
+  \begin{align*}
+    Y &= \bar X_1 - \bar X_2 \\
+      &= \left( \frac{\bar X_1 - \mu}{\frac{\sigma}{\sqrt n}} - \frac{\bar X_1 - \mu}{\frac{\sigma}{\sqrt n}}\right) \frac{\sigma}{\sqrt n} \\
+      &\approx (Z_1 - Z_2)\frac{\sigma}{\sqrt n},
+  \end{align*}
+  Where $Z_1$ and $Z_2$ are independent and identically distributed $N(0,1)$.  It is known that linear combinations of normal random variables are distributed normally.  In particular, $Y \sim N\left( \mu - \mu , \frac{\sigma^2}{n} + \frac{\sigma^2}{n}\right)\sim N\left(0,\frac{2\sigma^2}{n}\right)$. Thus,
+  \begin{align*}
+    P(|Y| \ge \sigma) 
+    &\approx 2 \Phi\left( - \frac{-\sigma}{2\sigma/\sqrt n} \right) \\
+    &= 2\Phi \left( - \frac{\sqrt n}2\right).
+  \end{align*}
+  If we require that this probability be approximately $.01$, we can approximate the quantile $.01/2$ of the standard normal in \texttt{R}, and solve for $n$ to arrive at an estimation.  That is,
+\begin{verbatim}
+> (2*qnorm(.01/2))**2 
+[1] 26.53959
+\end{verbatim}
+Thus, if $n \ge 27$ and the population meets assumption $\dagger$ for $n=27$, we can guarantee two samples will differ by more than $\sigma$ with probability $.01$.
+\end{solution}
 
 \problem{MGB VI.10 Suppose that light bulbs made by a standard process have an average life of 2000 hours with a standard deviation of 250 hours, and suppose that it is considered worthwhile to replace the process if the mean life can be increased by at least 10 percent.  An engineer wishes to test a proposed new process, and he is willing to assume that the standard deviation of the distribution of lives is about the same as for the standard process.  How large a sample should he examine if he wishes the probability to be about .01 that he will fail to adopt the new process if in fact it produces bulbs with a mean life of 2250 hours?}
-\newpage
+\begin{solution}
+  Let $X$ be the random variable representing the new bulb life.  We assume that it has $\mu = 2250$ and $\sigma^2 = 250$. Let $X_1,X_2,...,X_n$ be a random sample from this sample with population mean $\bar X_n$.  We know that the process will not be adopted if our estimate for $\mu$, $\bar X_n$, is less than 10 percent more than the original process --  i.e. $\bar X_n < 2200$. Well,
+  \begin{align*}
+  P(\bar X_n \le 2200) 
+  &= P(\bar X_n - \mu \le -50)& \text{ (recall $\mu = 2250$)}\\
+  &\le P(\bar X_n - \mu \le -50) + P(\bar X_n -\mu \ge 50) \\
+  &= P(|\bar X_n -\mu| \ge 50)& \text{ since the events are disjoint,}\\
+  &= P\left(|\bar X_n -\mu| \ge \frac{\sqrt n}{5} \cdot \frac{250}{\sqrt n}\right)
+  \end{align*}
+  Recall that $250/\sqrt n = \sigma /\sqrt n$ is the standard deviation for $\bar X_n$, hence Cheyechev's inequality says
+  $$
+  P(\bar X_n \le 2200) < \frac{25}n.
+  $$
+  In which case, if $n > 2500$ we are guaranteed with probability .99 that the process will not be adopted.
+
+  Alternatively, if we assume that $n$ is large enough so that $\left(\frac{\bar X_n - \mu}{\sigma/\sqrt n}\right)$ is distributed approximately normal, say $Z\sim N(0,1)$ (guaranteed by central limit theorem). Then,
+  \begin{align*}
+  P(\bar X_n \le 2200) 
+  &= P\left( \frac{\bar X_n- \mu}{\sigma/\sqrt n} \le \frac{-50}{250/\sqrt n}\right) \\
+  &\approx P\left( Z \le -\frac{\sqrt n}{5}\right)\\
+  &= \Phi\left(-\frac{\sqrt n}{5}\right)
+  \end{align*}
+  If we require that this probability be less than .01, we can find the quantile associated with .01 (via \texttt{R}) and solve for $n$.  That is: 
+  \begin{verbatim}
+> (5*qnorm(.01))**2 
+[1] 135.2974
+  \end{verbatim}
+  So, if $n> 136$ and $n$ is sufficient to make the normal approximation valid, then there is a probability of .01 that the process will not be adopted. 
+\end{solution}
 
 \problem{MGB VI.14 Find the third moment about the mean of the sample mean for sample sizes of size $n$ from a Bernoulli population.  Show that it approaches 0 as $n$ becomes large (as it must if the normal approximation is to be valid).}
+\begin{solution}
+  We first show generically for any random variable $X$ with finite third moment that
+  \begin{align*}
+  E\left[ (\bar X - \mu)^3 \right] 
+  &= E\left[ \left(\sum_{i=1}^n X_i/n - n \mu/ n \right) \right]\\
+  &= \frac 1{n^3} E\left[ \left(\sum_{i=1}^n X_i - \mu \right)^3 \right]\\
+  &= \frac 1{n^3} E\left[  \sssum (X_i - \mu)(X_j - \mu)(X_k - \mu) \right] \\
+  &= \frac 1{n^3} E\left[  \sssum (X_i - \mu)(X_j - \mu)(X_k - \mu) \right] \\
+  \end{align*}
+  \begin{align*}
+  &= \frac 1{n^3} \left[\sum_{i=j=k} E(X_i - \mu)^3 + 3 \sum_{\substack{i=j\\i\not=k}} E(X_i - \mu)^2(E(X_k) - \mu) +\dots\right.\\
+  &\left.\hspace{3cm} \sum_{i\not=j\not=k} (E(X_i) - \mu)(E(X_j) - \mu)(E(X_k) - \mu)\right]\\
+  &= \frac 1{n^3}\left[\sum_{i=j=k} E(X_i - \mu)^3 + 3 \sum_{\substack{i=j\\i\not=k}} 0 + \sum_{i\not=j\not=k} 0\right]\\
+  &= \frac 1{n^2} \mu_3. 
+  \end{align*}
+  This shows that, in general, as $n\to \infty$ the third moment about $\mu$ of $\bar X_n$ (when it exists) approaches 0 as predicted by the central limit theorem. (The normal distribution has zero odd moments.)  In particular for the Bernoulli distribution, we note that its moment generating function is $M_X(t) = q + pe^t$ of which $M_X^{(n)}(0) = p$, so 
+  \begin{align*}
+  \mu_3 &= E(X-\mu)^3 \\
+  &= E\left(X^3\right) - 3E\left(X^2\right)\mu + 3E(X) \mu^2 - \mu^3  \\
+  &= p - 3p^2 + 2p^3. 
+  \end{align*}
+  \textbf{Remark:} Note that we could use the fact that $Y = \sum X_i$ is distributed Binomial to find $E(\bar X - p)^3 = 1/n^3 E(\sum X_i - np)^3 = \mu_Y^3$ for a less general solution. 
+\end{solution}
 
 \end{document}
 
