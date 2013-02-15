@@ -26,6 +26,7 @@
 }
 \RequirePackage[margin=1in]{geometry}
 \RequirePackage{cmacros}
+\RequirePackage[mathcal]{euscript}
 
 \pagestyle{fancy}
 \setlength{\parindent}{0em}

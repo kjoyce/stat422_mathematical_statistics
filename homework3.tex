@@ -1,0 +1,111 @@
+\documentclass{stat_homework}
+
+\title{Homework 2}
+\course{Stat 422: Mathematical Statistics}
+\author{Kevin Joyce}
+\docdate{Kevin Joyce}
+\begin{document}
+
+\renewcommand{\bar}{\overline}
+\renewcommand{\SS}{\mathcal S}
+\problem{MGB VI.18[c,d] On the $F$ distribution:}
+
+\subproblem{ If $X$ has an $F$ distribution with $m$ and $n$ degrees of freedom, show that
+$$
+  W=\frac{mX/n}{1+mX/n}
+$$
+has a beta distribution.
+}
+\begin{solution}
+\end{solution}
+
+\subproblem{Use the result of part (a) and the beta function to find the mean and variance of the $F$ distribution.  [Find the first two moments of $mX/n = W/(1-W)$].}
+\begin{solution}
+\end{solution}
+\newpage
+
+\problem{MGB VI.19[c,d] On the $t$ distribution: }
+
+\subproblem{ If $X$ is $t$-distributed, show that $X^2$ is $F$-distributed. }
+\begin{solution}
+\end{solution}
+
+\subproblem{ If $X$ is $t$-distributed with $k$ degrees of freedom, show that $1/(1+X^2/k)$ has a beta distribution. }
+\begin{solution}
+\end{solution}
+\newpage
+
+\problem{ Let $X_1,...,X_n$ be a random sample from $N(\mu,\sigma^2)$.  Define 
+\begin{align*}
+\bar X_k &= \frac 1k \sum_{i=1}^k X_i,
+&\SS_k^2 &= \frac 1{k-1} \sum_{i=1}^k(X_i - \bar X_k)^2,\\
+\bar X_{n-k} &= \frac{1}{n-k} \sum_{i=k+1}^n X_i,
+&\SS_{n-k}^2 &= \frac 1{n-k-1} \sum_{i=k+1}^n(X_i - \bar X_{n-k})^2,\\
+\bar X &= \frac 1n \sum_{i=1}^n X_i,\quad\text{and} &\SS^2 &= \frac 1{n-1}\sum_{i=1}^n(X_i - \bar X)^2.
+\end{align*}
+Use known results about sampling from the normal distribution to answer the following:
+}
+
+\subproblem{What is the distribution of $\sigma^{-2}\big[(k-1)\SS_k^2 + (n-k-1)\SS_{n-k}^2\big]$?}
+\subproblem{What is the distribution of $(\frac 12) (\bar X_k + \bar X_{n-k})$?}
+\subproblem{What is the distribution of $\sigma^{-2}(X_i - \mu)$?}
+\subproblem{What is the distribution of $\SS_k^2/\SS_{n-k}^2$?}
+\subproblem{What is the distribution of $(\bar X 0 \mu)/(\SS/\sqrt n)$?}
+\newpage
+
+\problem{Let $Z_1,Z_2$ be a random sample of size 2 from $N(0,1)$ and $X_1,X_2$ be a random sample of size 2 from $N(1,1)$.  Suppose the $Z_i's$ are independent of the $X_j's$.  Use known results about sampling from the normal distribution to answer the following:}
+
+\subproblem{What is the distribution of $\bar X - \bar Z$?}
+\subproblem{What is the distribution of $(Z_1 + Z_2)/\sqrt{[X_2-X_1)^2 + (Z_2 - Z_1)^2]/2}$?}
+\subproblem{What is the distribution of $[(X_1 - X_2)^2 + (Z_1 - Z_2)^2 +(Z_1 + Z_2)^2]/2$?}
+\subproblem{What is the distribution of $(X_2 + X_1 - 2)^2/(X_2 - X_1)^2$?}
+\newpage
+
+\problem{MGB VI.27 If $X_1,X_2,...,X_n$ are indepently and normally distributed with the same mean but different variances $\sigma_1^2, \sigma_2^2,...,\sigma_n^2$ and assuming that 
+$$
+U = \frac{\sum_{i=1}^n X_i/\sigma_i^2}{\sum_{i=j}^n 1/\sigma_j^2}\quad\text{and}\quad
+\frac{1}{\sigma_i^2} \sum_{i=1}^n (X_i - U)^2
+$$
+are independently distributed, show that $U$ is normal and $V$ has the chi-square distribution with $n-1$ degrees of feedom.
+}
+\newpage
+
+\problem{MGB VI.29 Let a sample of size $n_1$ from a normal population (with variance $\sigma_1^2$) have sample variance $S_1^2$, and let a second sample of size $n_2$ from a second normal population (with mean $\mu_2$ and variance $\sigma_2^2$) have mean $\bar X$ and variance $ \SS _2^2$. Find the joint density of 
+$$
+  U= \frac{\sqrt{n_2}(\bar X - \mu)}{\SS_2}\quad\text{and}\quad V= \frac{\SS_1^2}{\SS_2^2}
+$$
+(Assume that samples are independent.)
+}
+
+\problem{Supplement 1.  Let $Z_1,Z_2,...$ be a sequence of random variables;  and suppose that, for $n=1,2,...,$ the distribution of $Z_n$ is as follows:
+$$
+  P(Z_n = n^2) = \frac 1 n \quad \text{and} \quad P(Z_n = 0) =1 - \frac 1n.
+$$
+Show that 
+$$
+  \lim_{n\to\infty} E(Z_n) = \infty\text{ but }Z_n\stackrel{p}{\to}0.
+$$
+}
+
+\problem{Supplement 2. A sequence of random variables $Y_1,Y_2,...$ is said to converge in the $r$th mean if $\lim_{n\to\infty}E(|Y_n-b|^r) = 0$.  Prove that if a sequence of random variables converge to $b$ in the quadratic mean, then the sequence also converges to $b$ in probability.}
+\newpage
+
+\problem{Supplement 3. Let $X_1,X_2,...$ be a sequence of random variables.  By the Weak Law of Large Numbers (provided that $E(X^4)<\infty$) we have
+$$
+  \bar X_n\stackrel{p}{\to}\mu\quad\text{ and }\quad \frac 1n\sum_{i=1}^n(X_i - \bar X_n)^2.
+$$
+Use these to prove that $\hat\sigma_n^2\stackrel{p}{\to}\sigma^2$ where the sample variance $\hat\sigma_n^2$ is defined by 
+$$
+\hat\sigma_n^2 = \frac 1n \sum_{i=1}^n(X_1-\bar X_n)^2.
+$$
+(Hint: Define $g:\RR^2 \to \RR$ as $g(y,z) = y-z^2$ which is a continuous function.)
+}
+\newpage
+
+\problem{Suppose that $X_1,\dots,X_n$ form a random sample from a normal distribution with mean 0 and unknown variance $\sigma^2$.  }
+
+\subproblem{ Determine the asymptotic distribution of the statistic $\left(\frac 1n \sum_{i=1}^n X_i^2\right)^{-1}$.}
+
+\subproblem{ Find a variance stabilizing transformation for the statistic $\frac 1n\sum_{i=1}^n X_i^2$. }
+\end{document}
+
