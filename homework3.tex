@@ -1,5 +1,8 @@
 \documentclass{stat_homework}
 \usepackage{cancel}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\newtheorem{lemma}{Lemma}
 
 \title{Kevin Joyce}
 \course{Stat 422: Mathematical Statistics HW 3}
@@ -140,9 +143,35 @@ where $W \sim t(n-1)$.  Hence, the desired density is $(n-1)^{-1/2}f_t(w \,(n-1)
 \problem{MGB VI.23 Let $Z_1,Z_2$ be a random sample of size 2 from $N(0,1)$ and $X_1,X_2$ be a random sample of size 2 from $N(1,1)$.  Suppose the $Z_i's$ are independent of the $X_j's$.  Use known results about sampling from the normal distribution to answer the following:}
 
 \subproblem{What is the distribution of $\bar X - \bar Z$?}
-\subproblem{What is the distribution of $(Z_1 + Z_2)/\sqrt{[X_2-X_1)^2 + (Z_2 - Z_1)^2]/2}$?}
+
+Since $\bar X\sim N(1,\frac 12)$ and $\bar Z \sim N(0,\frac 12)$, the linear combination $\bar X - \bar Z$ is distributed $N(1,1)$.
+
+\subproblem{What is the distribution of $(Z_1 + Z_2)/\sqrt{[(X_2-X_1)^2 + (Z_2 - Z_1)^2]/2}$?}
+
+The linear combination $Y = Z_1 + Z_2$ is distributed $N(0,2)$. Hence, $Y/\sqrt2 \sim N(0,1)$.
+
+Notice that the sample variance of $X_1,X_2$ is $\SS_X^2=(X_1 - \bar X)^2 + (X_2 - \bar X)^2 = \big[(X_1 - X_2)/2\big]^2+\big[(X_1 - X_2)/2\big]^2 = (X_2 - X_1)^2/2$.  Similarly the sample variance for $Z_1,Z_2$ is $\SS_Z^2=(Z_2 - Z_1)^2/2$. Since $\sigma^2=1$ and there's 1 degree of freedom $\SS^2_Z$ and $\SS^2_X$ are identically distributed $\chi^2_1$. They are indepenent as functions of independent samples.  Thus, their sum, $U = \SS_X^2 + \SS_Z^2$ is distributed $\chi^2_2$. 
+
+Now, the random variable in question is
+$$
+  \frac{Y}{\sqrt{U}} = \frac{Y/\sqrt 2}{\sqrt{U/2}},
+$$
+which is a Student's $t$ distribution with $2$ degrees of freedom.
+
 \subproblem{What is the distribution of $[(X_1 - X_2)^2 + (Z_1 - Z_2)^2 +(Z_1 + Z_2)^2]/2$?}
+
+As in (b), we have that the random variable in question is
+$$
+  \SS_X^2 + \SS_Z^2 + (Y/\sqrt2)^2.
+$$
+Note that $(Y/\sqrt2)^2\sim\chi^2_1$.  We have that $\SS_X^2$ is independent of $\SS_Z^2$ and $(Y/\sqrt 2)^2$ since samples are taken independently.  Moreover, $\SS_Z^2$ and $(Y/\sqrt2)^2$ are independent since $\SS_Z^2$ is independent of $\bar Z = 2 Y$.  Thus, the distribution is given by the sum of independent chi-squares, which is known to be distributed chi-squared with degrees of freedom equal to the sum of the degrees of freedom of each variable.  I.e $\chi^2_3$. 
+
 \subproblem{What is the distribution of $(X_2 + X_1 - 2)^2/(X_2 - X_1)^2$?}
+
+The linear combination $W=X_2 + X_1 -2 \sim N(0,2)$. So $(W/\sqrt 2)^2 \sim \chi^2_1$. Thus, the random variable in question is
+$$
+  \frac{(W/\sqrt2)^2}{\SS_X^2}\sim F(1,1).
+$$ 
 \newpage
 
 
@@ -155,10 +184,10 @@ are independently distributed, show that $U$ is normal and $V$ has the chi-squar
 }
 \begin{solution}
   Note that $U$ is a linear combination of normal random variables, hence its distribution is given by 
-  \begin{align*}
-    U&\sim N\left( \mu\cancel{\frac{\sum_{i=1}^n 1/\sigma_i^2}{\sum_{j=1}^n 1/\sigma_j^2}},\left[ \sum_{i=1}^n \frac{\sigma_i^2}{\sigma_i^4} \middle/ \left(\sum_{j=1}^n 1/\sigma_j^2 \right)^2 \right] \right) \\
-    &= N\left( \mu ,\left( \sum_{j=1}^n 1/\sigma_j^2 \right)^{-1}  \right).
-  \end{align*}
+  \begin{align}
+    U&\sim N\left( \mu\cancel{\frac{\sum_{i=1}^n 1/\sigma_i^2}{\sum_{j=1}^n 1/\sigma_j^2}},\left[ \sum_{i=1}^n \frac{\sigma_i^2}{\sigma_i^4} \middle/ \left(\sum_{j=1}^n 1/\sigma_j^2 \right)^2 \right] \right) \nonumber\\
+    &= N\left( \mu ,\left( \sum_{j=1}^n 1/\sigma_j^2 \right)^{-1}  \right). \label{unorm}
+  \end{align}
   To evaluate the distribution of $V$,note 
   \begin{align*}
   \sum_{i=1}^n\frac{(X_i-\mu)^2}{\sigma_i^2}
@@ -168,7 +197,7 @@ are independently distributed, show that $U$ is normal and $V$ has the chi-squar
 \intertext{ since $U \sum{1/\sigma_i^2} = \sum X_i/\sigma_i^2$}
     &\stackrel{\dagger}{=} V + (U - \mu)^2\sum_{i=1}^n \frac{1}{\sigma_i^2}. \\
 \end{align*}
-We know that $(X_i-\mu)/\sigma_i^2$ is a standard normal random variable so $\sum_{i=1}^n(X_i-\mu)/\sigma_i^2\sim \chi^2_n$.  Moreover, by the above calculation $(U-\mu)/\sqrt{\sum 1/\sigma_i}$ is also a standard normal random variable. Hence, its square (which is the second term on the right hand side of $\dagger$)  is distributed $\chi^2_1$.  The equality of the random variables above implies that their moment generating functions are equal.  Moreover, since $V$ is assumed independent of $U$, it is independent of $(U- \mu)^2\sum1/\sigma_i$.  Thus the moment generating function of the right hand side of $\dagger$ factors. I.e.
+We know that $(X_i-\mu)/\sigma_i$ is a standard normal random variable so $\sum_{i=1}^n(X_i-\mu)^2/\sigma_i^2\sim \chi^2_n$.  Moreover, $(U-\mu)/\sqrt{\sum 1/\sigma_i}$ is also a standard normal random variable by \eqref{unorm}. Hence, its square (which is the second term on the right hand side of $\dagger$)  is distributed $\chi^2_1$.  The equality of the random variables above implies that their moment generating functions are equal.  Moreover, since $V$ is assumed independent of $U$, it is independent of $(U- \mu)^2\sum1/\sigma_i$.  Thus the moment generating function of the right hand side of $\dagger$ factors. I.e.
 {\small
 $$
   \left(\frac{1}{1-2t}\right)^{n/2} = M_V(t) \cdot \left(\frac{1}{1-2t}\right)^{1/2} \iff
@@ -185,6 +214,40 @@ $$
 $$
 (Assume that samples are independent.)
 }
+\begin{solution}
+  Let us first establish a lemma.
+  \begin{lemma} If $Y\sim \chi^2_k$, then $aY\sim Gamma(\frac12,\frac k{2a})$.
+  \label{lem1}
+  \end{lemma}
+  \begin{proof}
+  Consider the moment generating function of $aY$
+\begin{align*}
+  M_{a Y}(t) 
+  & = M_{Y} (a t)  \\
+  & = \left( \frac{ \frac k2 }{ \frac k2 - a t} \right)^{\frac 12} \\
+  & = \left( \frac{ \frac k{2a} }{ \frac k{2a} - t} \right)^{\frac 12} \\
+  & = M_W(t) \quad\text{ where }W \sim Gamma\left(\frac12,\frac k{2a}\right).
+\end{align*}
+  \end{proof}
+  Suppose $\SS_2^2 = s$ is given.  Then 
+  \begin{equation}
+    U|_{\SS_2^2=s}\sim N(0,\sigma_2^2/s^2),\quad\quad
+    \frac {(n_1 - 1)}{\sigma_1^2} s^2V|_{\SS_2^2=s} \sim \chi^2_{n_1-1}\quad\text{and}\quad \frac{n_2-1}{\sigma_2^2}\SS_2^2\sim \chi^2_{n_2-2}.
+    \label{densities}
+  \end{equation}
+  Moreover, these random variables are conditionally independent since the samples are taken independently (i.e. functions of the samples are independent).  So, the joint conditional density factors 
+  $$
+    f_{U,V|{\SS_2^2 = s}}(u,v|s) = f_{U|\SS^2_2=s}(u|s)f_{V|\SS^2_2=s}(v|s).
+  $$
+  So, we can recover the joint distribution $f_{U,V,\SS^2_2}$ and integrate out $s$ to obtain the desired joint distribution. I.e.
+  \begin{align*}
+  f_{U,V}(u,v) 
+  &= \int_0^\infty f_{U,V,\SS^2_2}(u,v,s)\,ds \\ 
+  &= \int_0^\infty f_{U,V|{\SS_2^2 = s}}(u,v|s) f_{\SS^2_2}(s)\\
+  &= \int_0^\infty f_{U|\SS^2_2=s}(u|s)f_{V|\SS^2_2=s}(v|s) f_{\SS^2_2}(s).
+  \end{align*}
+  Using \cref{lem1} and \eqref{densities}, we have an integral expression for the joint density.
+\end{solution}
 %\begin{solution}
 %Note that $X = \frac{\bar X - \mu}{1/\sqrt{n_2}} \sim N(0,\sigma_2^2)$.  Moreover, $Y=\SS_2^2$ and $Z=\SS_1^2$ are distributed $\chi^2_{n_2}$ and $\chi^2_{n_1}$ respectively.  We have that $X,Y,Z$ are independent by assumption of independence of samples and the independence of $X$ and $Y$ as a result of the theorem regarding the distribution of sample variance (i.e. $\bar X \bot \SS^2$).  Therefore, the joint density of $X,Y,Z$ is given by the product of their respective densities.  
 %
@@ -321,14 +384,8 @@ Theorem$^\star$: Suppose $\vect{Y_n}:\Omega \to \RR^n$ is a random variable such
 \subproblem{ Determine the asymptotic distribution of the statistic $\left(\frac 1n \sum_{i=1}^n X_i^2\right)^{-1}$.}
 
 \begin{solution}
-Recall that the square of a standard normal random varaible is distributed chi-squared with one degree of freedom.  Hence, $X_i^2/\sigma \sim \chi^2_1$.  Thus, $X_i^2$ is a linear transformation of a chi-squared random variable with one degree of freedom.  I.e. $X_i^2 = \sigma^2 Y_i^2$, where $Y_i\sim \chi_1^2$.  This is a gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r= 1/2$.  To see this, consider its moment generating function
-\begin{align*}
-  M_{\sigma^2 Y_i^2}(t) 
-  & = M_{Y_i^2} (\sigma^2 t)  \\
-  & = \left( \frac{ \frac 12 }{ \frac 12 - \sigma^2 t} \right)^{\frac 12} \\
-  & = \left( \frac{ \frac 1{2\sigma^2} }{ \frac 1{2\sigma^2} - t} \right)^{\frac 12} \\
-  & = M_W(t) \quad\text{ where }W \sim\text{Gamma}(1/2,1/(2\sigma^2)).
-\end{align*}
+Recall that the square of a standard normal random varaible is distributed chi-squared with one degree of freedom.  Hence, $X_i^2/\sigma \sim \chi^2_1$.  This is a gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r= 1/2$ (by MGB VI.29 Lemma \ref{lem1}).  
+
 Thus, we can think of $X_1^2,X_2^2,...,X_n^2$ as a random sample from gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r=1/2$.  Denote them as $W_i$ and their sample mean as $\bar W$.  The mean and variance of this gamma distribution are given by $\mu_W = r/\lambda = \sigma^2$ and $\sigma_W^2= r/\lambda^2 = 2 \sigma^4$, respectively. If $g(w) = w^{-1}$, then note that $g'(\mu_W) = -1/(\sigma^4) \not= 0$.  By the delta method theorem we have that 
 $$
   \frac{ \sqrt n \left[(\bar W)^{-1} - (\sigma^2)^{-1}\right]} { \left(-1/\sigma^4\right) \sqrt{2 \sigma^4} } \stackrel{D}{\longrightarrow} Z \sim N(0,1).
