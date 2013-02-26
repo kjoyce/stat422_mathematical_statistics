@@ -1,13 +1,17 @@
 \documentclass{stat_homework}
+\usepackage{cancel}
 
-\title{Homework 2}
-\course{Stat 422: Mathematical Statistics}
+\title{Kevin Joyce}
+\course{Stat 422: Mathematical Statistics HW 3}
 \author{Kevin Joyce}
-\docdate{Kevin Joyce}
+\docdate{\today}
 \begin{document}
 
 \renewcommand{\bar}{\overline}
 \renewcommand{\SS}{\mathcal S}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\todist}{\stackrel{D}\longrightarrow}
+\newcommand{\toprob}{\stackrel{p}\longrightarrow}
 \problem{MGB VI.18[c,d] On the $F$ distribution:}
 
 \subproblem{ If $X$ has an $F$ distribution with $m$ and $n$ degrees of freedom, show that
@@ -17,25 +21,78 @@ $$
 has a beta distribution.
 }
 \begin{solution}
+  Note that except for $W\not=0$, $W$ is a transformation of $X$ by $g:(0,\infty)\to(0,1)$ where
+  $$
+    g(x) = \frac{mx/n}{1+mx/n}.
+  $$
+  Moreover, the inverse of $g$ is given by 
+  $$
+    g^{-1}(w) = \frac nm\cdot \frac{w}{1-w}.
+  $$
+  so the transformation is one-to-one, and the transformation theorem applies. The Jacobian is
+  $$
+    \frac nm\cdot (1-w)^{-2},
+  $$
+  so $W$ has density
+  \begin{align*}
+    f_W(w) &= \frac nm (1-w)^{-2} f_{F(m,n)}(g^{-1}(w))\\
+    &= \frac nm (1-w)^{-2} \frac{ \left(\frac mn\right)^{m/2}}{B(m/2,n/2)} \left(\frac mn\frac w{1-w}\right)^{m/2 -1} \left(1 + \cancel{\frac mn \frac nm} \frac w{1-w} \right)^{-(m + n)/2} I_{(0,1)}(w)\\
+    &= \frac{1}{B(m/2,n/2)} \cancel{\left( \frac mn \right)^{-1 + m/2 -m/2 + 1}} w^{m/2-1} (1-w)^{-2 + (-m/2+1) + (m+n)/2}
+    \intertext{since $1 + w/(1-w) = 1/(1-w)$,} 
+    &= \frac{1}{B(m/2,n/2)} w^{m/2-1} (1-w)^{n/2-1}.
+  \end{align*} 
+  This is the p.d.f. of a beta distribution with parameters $a=m/2$ and $b=n/2$.
 \end{solution}
 
 \subproblem{Use the result of part (a) and the beta function to find the mean and variance of the $F$ distribution.  [Find the first two moments of $mX/n = W/(1-W)$].}
 \begin{solution}
+  The $r$th moment of $X$ is given by 
+  {\small
+  \begin{align*}
+    E\left[X^r\right] 
+    = \left(\frac nm\right)^r E\left[(mX/n)^r\right] 
+    &= \left(\frac nm\right)^r E\left[ \frac {W^r}{(1-W)^r} \right] \\
+    &= \left(\frac nm\right)^r\frac{1}{B(m/2,n/2)} \int_0^1 w^{m/2-1 + r} (1-w)^{n/2-1 - r}\\
+    &= \left(\frac nm\right)^r\frac{B(m/2+r,n/2-r)}{(m/2),n/2)}\\
+    &= \left(\frac nm\right)^r\frac{\Gamma(m/2 +r)\Gamma(n/2 -r)}{\Gamma(m/2)\Gamma(n/2)}.
+  \end{align*}
+  }
+
+  So
+  $$
+    \mu = \frac nm\cdot \frac{m/2}{n/2-1} = \frac n{n-2},
+  $$
+  and
+  \begin{align*}
+    \sigma^2 
+    &= \left(\frac nm \right)^2 \frac{(m/2 +1)\cdot m/2}{(n/2 - 1)(n/2-2)} - \left(\frac{n}{n-2}\right)^2 \\
+    &= \frac{n^2(m+2)}{m(n - 2)(n-4)} - \frac{n^2}{(n-2)^2} \\
+    &= \frac{n^2(m+2)(n-2) -  n^2m (n-4)}{m(n-2)^2(n-4)} \\
+    &= \frac{2n^2\cdot\left(m +n-4\right)}{m(n-2)^2(n-4)}. \\
+  \end{align*}
 \end{solution}
-\newpage
 
 \problem{MGB VI.19[c,d] On the $t$ distribution: }
 
 \subproblem{ If $X$ is $t$-distributed, show that $X^2$ is $F$-distributed. }
 \begin{solution}
+  Denote $Y = X^2$ and let $g:A_1\cup A_2\to(0,\infty)$ by $g(x) = x^2$ where $A_1 = (-\infty,0)$, and $A_2=(0,\infty)$.  Note that $g$ restricted to each $A_i$ is one-to-one.  Therefore, we can apply the transformation theorem:
+  \begin{align*}
+    f_Y(y) &= \left[\frac 12 \frac 1{\sqrt{y}} f_X(-\sqrt y) + \frac 12 \frac 1{\sqrt{y}} f_X(\sqrt y) \right]\\
+    &= \frac 1{\sqrt{y}} f_X(\sqrt y) &\text{since $f_X$ is even}\\ 
+    &= \frac 1{\sqrt{y}} \frac{\Gamma\big[(k+1)/2\big]}{\Gamma(k/2)} \, \frac 1{\sqrt{k\pi}}\,\frac {1}{(1+y/k)^{(k+1)/2}}\\
+    &= \frac{\Gamma\big[(1+k)/2\big]}{\Gamma(1/2)\Gamma(k/2)} \, \left(\frac 1k\right)^{1/2}\,\frac {y^{(1-2)/2}}{(1+\frac 1k y)^{(k+1)/2}}.
+  \end{align*}
+  This is the density for a random variable distributed $F(1,k)$.
 \end{solution}
 
 \subproblem{ If $X$ is $t$-distributed with $k$ degrees of freedom, show that $1/(1+X^2/k)$ has a beta distribution. }
 \begin{solution}
+  Using part (a), this is a corollary of MGB VI.18[d].
 \end{solution}
 \newpage
 
-\problem{ Let $X_1,...,X_n$ be a random sample from $N(\mu,\sigma^2)$.  Define 
+\problem{ MGB VI.22 Let $X_1,...,X_n$ be a random sample from $N(\mu,\sigma^2)$.  Define 
 \begin{align*}
 \bar X_k &= \frac 1k \sum_{i=1}^k X_i,
 &\SS_k^2 &= \frac 1{k-1} \sum_{i=1}^k(X_i - \bar X_k)^2,\\
@@ -47,13 +104,40 @@ Use known results about sampling from the normal distribution to answer the foll
 }
 
 \subproblem{What is the distribution of $\sigma^{-2}\big[(k-1)\SS_k^2 + (n-k-1)\SS_{n-k}^2\big]$?}
+
+Distributing $\sigma^{-2}$, we have that this is the sum of independent Chi-squared distributions with degrees of freedom $k-1$ and $n-k-1$ respectively.  By independence (moment generating function argument), the sum is distributed $\chi^2_{n-2}$.
+
 \subproblem{What is the distribution of $(\frac 12) (\bar X_k + \bar X_{n-k})$?}
+
+We have that $\bar X_k \sim N(\mu,\sigma^2/k)$ and $\bar X_{n-k} \sim N(\mu,\frac {\sigma^2}{n-k})$.  Hence, by indpendence, their sum is distributed $N\Big(2\mu, \frac{\sigma^2n}{k(n-k)}\Big)$ since $\frac 1k + \frac 1{n-k} = \frac n{k(n-k)}$.  Finally, multiplying by $1/2$ yields a distribution of $N\Big(\mu, \frac{\sigma^2}{4}(\frac{\sigma^2n}{k(n-k)})\Big)$.
+
 \subproblem{What is the distribution of $\sigma^{-2}(X_i - \mu)$?}
+
+Recall that $Z = (X_i - \mu)/\sigma \sim N(0,1)$, hence $\sigma^{-2}(X_i-\mu) = \frac 1\sigma Z \sim N(0,\frac 1{\sigma^2})$.
+
 \subproblem{What is the distribution of $\SS_k^2/\SS_{n-k}^2$?}
-\subproblem{What is the distribution of $(\bar X 0 \mu)/(\SS/\sqrt n)$?}
+
+Note that $(k-1)\SS_k^2/\sigma^2\sim\chi^2_{k-1}$ and $(n-k-1)\SS_{n-k}^2/\sigma^2 \sim \chi^2_{n-k-1}$. So
+$$
+  \frac{k-1}{n-k-1} \cdot \frac {\SS_k^2}{\SS_{n-k}^2} \sim F(k-1,n-k-1).
+$$
+The distribution of $\SS_k^2 / \SS_{n-k}^2$ can be obtained by transforming the above $F$ distributed variable by multiplying by $(n-k-1)/(k-1)$.  This gives a density 
+$$(k-1)/(n-k-1) f_{Y}\left( \frac{k-1}{n-k-1} \right),$$
+where $Y \sim F(k-1,n-k-1)$.
+
+\subproblem{What is the distribution of $(\bar X - \mu)/(\SS/\sqrt n)$?}
+
+If $Z = \frac{\bar X - \mu}{\sigma/\sqrt n}$, and $Y = \frac{n-1}{\sigma^2} \SS^2$, then $X \sim N(0,1)$, $Y \sim \chi^2_{n-1}$ and
+\begin{align*}
+  (\bar X - \mu)/(\SS/\sqrt n) 
+  &= \left. (\sigma/\sqrt n) Z \middle/ \sqrt{\frac{Y\sigma^2}{n(n-1)}} \right. 
+  = \sqrt{n-1} \, W,
+\end{align*}
+where $W \sim t(n-1)$.  Hence, the desired density is $(n-1)^{-1/2}f_t(w \,(n-1)^{-1/2})$, where $f_t$ is the density of Student's $t$ distribution. 
+
 \newpage
 
-\problem{Let $Z_1,Z_2$ be a random sample of size 2 from $N(0,1)$ and $X_1,X_2$ be a random sample of size 2 from $N(1,1)$.  Suppose the $Z_i's$ are independent of the $X_j's$.  Use known results about sampling from the normal distribution to answer the following:}
+\problem{MGB VI.23 Let $Z_1,Z_2$ be a random sample of size 2 from $N(0,1)$ and $X_1,X_2$ be a random sample of size 2 from $N(1,1)$.  Suppose the $Z_i's$ are independent of the $X_j's$.  Use known results about sampling from the normal distribution to answer the following:}
 
 \subproblem{What is the distribution of $\bar X - \bar Z$?}
 \subproblem{What is the distribution of $(Z_1 + Z_2)/\sqrt{[X_2-X_1)^2 + (Z_2 - Z_1)^2]/2}$?}
@@ -61,21 +145,84 @@ Use known results about sampling from the normal distribution to answer the foll
 \subproblem{What is the distribution of $(X_2 + X_1 - 2)^2/(X_2 - X_1)^2$?}
 \newpage
 
+
 \problem{MGB VI.27 If $X_1,X_2,...,X_n$ are indepently and normally distributed with the same mean but different variances $\sigma_1^2, \sigma_2^2,...,\sigma_n^2$ and assuming that 
 $$
 U = \frac{\sum_{i=1}^n X_i/\sigma_i^2}{\sum_{i=j}^n 1/\sigma_j^2}\quad\text{and}\quad
-\frac{1}{\sigma_i^2} \sum_{i=1}^n (X_i - U)^2
+V = \sum_{i=1}^n\frac{(X_i - U)^2}{\sigma_i^2}  
 $$
 are independently distributed, show that $U$ is normal and $V$ has the chi-square distribution with $n-1$ degrees of feedom.
 }
+\begin{solution}
+  Note that $U$ is a linear combination of normal random variables, hence its distribution is given by 
+  \begin{align*}
+    U&\sim N\left( \mu\cancel{\frac{\sum_{i=1}^n 1/\sigma_i^2}{\sum_{j=1}^n 1/\sigma_j^2}},\left[ \sum_{i=1}^n \frac{\sigma_i^2}{\sigma_i^4} \middle/ \left(\sum_{j=1}^n 1/\sigma_j^2 \right)^2 \right] \right) \\
+    &= N\left( \mu ,\left( \sum_{j=1}^n 1/\sigma_j^2 \right)^{-1}  \right).
+  \end{align*}
+  To evaluate the distribution of $V$,note 
+  \begin{align*}
+  \sum_{i=1}^n\frac{(X_i-\mu)^2}{\sigma_i^2}
+    &= \sum_{i=1}^n\frac{(X_i - U + U - \mu)^2}{\sigma_i^2}\\
+    &= \sum_{i=1}^n\frac{(X_i - U)^2}{\sigma_i^2} + 2(U - \mu)\sum_{i=1}^n\frac{(X_i - U)}{\sigma_i^2} + (U - \mu)^2\sum_{i=1}^n \frac{1}{\sigma_i^2}. \\
+    &= \sum_{i=1}^n\frac{(X_i - U)^2}{\sigma_i^2} + 2(U - \mu)\cancelto{0}{\left[\sum_{i=1}^n\frac{X_i}{\sigma_i^2} - U\sum_{i=1}^n\frac{1}{\sigma_i^2}\right]} + (U - \mu)^2\sum_{i=1}^n \frac{1}{\sigma_i^2}. \\
+\intertext{ since $U \sum{1/\sigma_i^2} = \sum X_i/\sigma_i^2$}
+    &\stackrel{\dagger}{=} V + (U - \mu)^2\sum_{i=1}^n \frac{1}{\sigma_i^2}. \\
+\end{align*}
+We know that $(X_i-\mu)/\sigma_i^2$ is a standard normal random variable so $\sum_{i=1}^n(X_i-\mu)/\sigma_i^2\sim \chi^2_n$.  Moreover, by the above calculation $(U-\mu)/\sqrt{\sum 1/\sigma_i}$ is also a standard normal random variable. Hence, its square (which is the second term on the right hand side of $\dagger$)  is distributed $\chi^2_1$.  The equality of the random variables above implies that their moment generating functions are equal.  Moreover, since $V$ is assumed independent of $U$, it is independent of $(U- \mu)^2\sum1/\sigma_i$.  Thus the moment generating function of the right hand side of $\dagger$ factors. I.e.
+{\small
+$$
+  \left(\frac{1}{1-2t}\right)^{n/2} = M_V(t) \cdot \left(\frac{1}{1-2t}\right)^{1/2} \iff
+  M_V(t) = \left(\frac{1}{1-2t} \right)^{(n-1)/2}.
+$$
+}
+This is the moment generating function for a $\chi^2_{n-1}$ distributed random variable.
+\end{solution}
 \newpage
 
-\problem{MGB VI.29 Let a sample of size $n_1$ from a normal population (with variance $\sigma_1^2$) have sample variance $S_1^2$, and let a second sample of size $n_2$ from a second normal population (with mean $\mu_2$ and variance $\sigma_2^2$) have mean $\bar X$ and variance $ \SS _2^2$. Find the joint density of 
+\problem{MGB VI.29 Let a sample of size $n_1$ from a normal population (with variance $\sigma_1^2$) have sample variance $\SS_1^2$, and let a second sample of size $n_2$ from a second normal population (with mean $\mu_2$ and variance $\sigma_2^2$) have sample mean $\bar X$ and sample variance $ \SS _2^2$. Find the joint density of 
 $$
-  U= \frac{\sqrt{n_2}(\bar X - \mu)}{\SS_2}\quad\text{and}\quad V= \frac{\SS_1^2}{\SS_2^2}
+  U= \frac{\sqrt{n_2}(\bar X - \mu_2)}{\SS_2}\quad\text{and}\quad V= \frac{\SS_1^2}{\SS_2^2}
 $$
 (Assume that samples are independent.)
 }
+%\begin{solution}
+%Note that $X = \frac{\bar X - \mu}{1/\sqrt{n_2}} \sim N(0,\sigma_2^2)$.  Moreover, $Y=\SS_2^2$ and $Z=\SS_1^2$ are distributed $\chi^2_{n_2}$ and $\chi^2_{n_1}$ respectively.  We have that $X,Y,Z$ are independent by assumption of independence of samples and the independence of $X$ and $Y$ as a result of the theorem regarding the distribution of sample variance (i.e. $\bar X \bot \SS^2$).  Therefore, the joint density of $X,Y,Z$ is given by the product of their respective densities.  
+%
+%Now consider the transformation $g:\RR\times(0,\infty)^2 \to \RR\times(0,\infty)^2$ by
+%$$
+%  g(x,y,z) = \left(\frac{x}{\sqrt y}, \frac zy, z\right).
+%$$ 
+%Note that the marinal distribution of $g(X,Y)$ is the joint random variable of interest. Moreover, $g$ is one-to-one and onto as its inverse $g^{-1}\RR\times(0,\infty)^2 \to \RR\times(0,\infty)^2$ is given by 
+%$$
+%  g^{-1}(u,v,w) = \left( u\sqrt{\frac wv}, \frac wv, w\right).
+%$$
+%Thus, we proceed by invoking the transformation theorem to find the joint distribution of $(U,V,W)$ and then integrating with respect to $W$ to obtain the marginal joint density for $(U,V)$. 
+%
+%The Jacobian of the transformation is
+%$$
+%\begin{vmatrix}
+%\ds{\sqrt{\frac{w}{v}}} & \ds{-\frac{u}{2}\sqrt{\frac{w}{v^3}}} & \ds{\frac{u}{2\,\sqrt{vw}}}\\[1em]
+%0 & \ds{-\frac{w}{{v}^{2}}} & \ds{\frac{1}{v}}\\[1em]
+%0 & 0 & 1\end{vmatrix}
+%= {w}^{\frac{3}{2}}{v}^{-\frac{5}{2}}.
+%$$
+%Thus,
+%\begin{align*}
+%  f_{U,V,W}(u,v,w) 
+%  &= w^{\frac{3}{2}}{v}^{-\frac{5}{2}} 
+%    \cdot f_X\left(u\sqrt{\frac wv}\right) 
+%    \cdot f_Y\left( \frac wv \right) 
+%    \cdot f_Z( w ) \\
+%  &= w^{\frac{3}{2}}{v}^{-\frac{5}{2}} 
+%    \left[ \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{u^2 w}{v \sigma^2}} \right] 
+%    \left[ \frac{\left(\frac wv\right)^{n_2/2 -1} e^{-\frac w{2v}}}{2^{n_2/2}\Gamma(n_2/2)} \right]
+%    \left[ \frac{ w^{n_1/2 -1} e^{-w/2}}{2^{n_1/2}\Gamma(n_1/2)} \right] \\
+%  & = \frac{v^{-\frac{n_2-7}{2}}}{\sqrt{2^{n2+n1+1}\pi }\,\Gamma\left( \frac{n1}{2}\right) \,\Gamma\left( \frac{n2}{2}\right) \,{\sigma}^{2}}
+%    w^{\frac{n_1+ n_2-1}{2}}\,e^{-w \frac{u^2 + v + 1}{2v\sigma^2}} \\
+%    &= 
+%\end{align*}
+%\end{solution}
+\newpage
 
 \problem{Supplement 1.  Let $Z_1,Z_2,...$ be a sequence of random variables;  and suppose that, for $n=1,2,...,$ the distribution of $Z_n$ is as follows:
 $$
@@ -83,29 +230,123 @@ $$
 $$
 Show that 
 $$
-  \lim_{n\to\infty} E(Z_n) = \infty\text{ but }Z_n\stackrel{p}{\to}0.
+  \lim_{n\to\infty} E(Z_n) = \infty\text{ but }Z_n\toprob0.
 $$
 }
-
-\problem{Supplement 2. A sequence of random variables $Y_1,Y_2,...$ is said to converge in the $r$th mean if $\lim_{n\to\infty}E(|Y_n-b|^r) = 0$.  Prove that if a sequence of random variables converge to $b$ in the quadratic mean, then the sequence also converges to $b$ in probability.}
+\begin{solution}
+  Note that for each $n$, the events $Z_n = n^2$ and $Z_n = 0$ are disjoint and that the probability of their sum is 1, hence the support of each $Z_n$ is $\{0,n^2\}$ and has the p.m.f. 
+  $$
+    f_{Z_n} ( m ) = 
+  \begin{cases}
+    \frac 1n &\text{ if } m = n^2\\
+    1 - \frac 1n &\text{ if } m = 0\\
+    0 &\text{ otherwise. }
+  \end{cases}
+  $$
+  Thus, we can calculate the expected value of each $Z_n$ as
+  \begin{align*}
+    E(Z_n) &= \sum_{0,n^2} x f_{Z_n}(x) \\
+    &= 0\left( 1 - \frac 1n\right) + n^2 \left( \frac 1n \right) \\
+    &= n.
+  \end{align*}
+  Hence $E(Z_n) \to \infty$ exactly as $n \to \infty$.
+  
+  However, suppose that $\eps > 0$ is given. Then
+  \begin{align*}
+    \lim_{n\to \infty} P\left( |Z_n - 0| < \eps \right)
+    &= \lim_{n\to \infty} P\left( |Z_n| < \eps \right) \\
+    &= \lim_{n\to \infty}P( Z_n = 0 ) &\text{ for if $n\ge\sqrt \eps$ then $0 <\eps \le n^2,$ } \\
+    &= \lim_{n\to\infty} \left(1 - \frac 1n\right)\\
+    &= 1.
+  \end{align*}
+  Hence $Z_n\toprob0$.
+\end{solution}
 \newpage
 
+\problem{Supplement 2. A sequence of random variables $Y_1,Y_2,...$ is said to converge in the $r$th mean if $\lim_{n\to\infty}E(|Y_n-b|^r) = 0$.  Prove that if a sequence of random variables converge to $b$ in the quadratic mean, then the sequence also converges to $b$ in probability.}
+\begin{solution}
+  Let $\eps>0$ be given.  First note that because the function $f(x)=x^2$ is increasing for $x> 0$,
+  \begin{align*}
+    P\big[|Y_n -b| < \eps\big] &= P\left[ (Y_n - b)^2 < \eps^2 \right] \\
+    &\stackrel{\dagger}= 1 - P\left[ (Y_n - b)^2 \ge \eps^2 \right].
+  \end{align*}
+  Recall Markov's inequality (denoted Chebyechev's Inequality in MGB) guarantees,
+  \begin{align*}
+     P\left[ (Y_n - b)^2 \ge \eps^2 \right] &\le \frac{E\left[ (Y_n - b)^2 \right]}{ \eps^2 }, \\
+  \intertext{Hence,}
+    1-\frac{E\left[ (Y_n - b)^2 \right]}{ \eps^2 } &\le1 - P\left[ (Y_n - b)^2 \ge \eps^2 \right]\\
+    \iff 1 - \frac{E\left[ (Y_n - b)^2 \right]}{\eps^2} &\stackrel{\dagger}\le P\big[|Y_n -b| < \eps] \\
+    \iff \lim_{n\to\infty} \left\{ 1 - \frac{E\left[ (Y_n - b)^2 \right]}{\eps^2} \right\}  
+      &\le \lim_{n\to\infty} P\big[|Y_n -b| < \eps] \\
+    \iff 1 - 0 &\le \lim_{n\to\infty} P\big[|Y_n -b| < \eps\big].
+    \end{align*}
+  Since probability is bounded above by 1, we have $\lim_{n\to\infty}P\big[|Y_n-b|<\eps\big] = 1$ and, thus, convergence in probability.
+
+\end{solution}
+\newpage
+\renewcommand{\hat}{\widehat}
 \problem{Supplement 3. Let $X_1,X_2,...$ be a sequence of random variables.  By the Weak Law of Large Numbers (provided that $E(X^4)<\infty$) we have
 $$
-  \bar X_n\stackrel{p}{\to}\mu\quad\text{ and }\quad \frac 1n\sum_{i=1}^n(X_i - \bar X_n)^2.
+  \bar X_n\toprob\mu\quad\text{ and }\quad \frac 1n\sum_{i=1}^n X_i^2 \toprob E\left(X^2\right).
 $$
-Use these to prove that $\hat\sigma_n^2\stackrel{p}{\to}\sigma^2$ where the sample variance $\hat\sigma_n^2$ is defined by 
+Use these to prove that $\hat\sigma_n^2\toprob\sigma^2$ where the sample variance $\hat\sigma_n^2$ is defined by 
 $$
-\hat\sigma_n^2 = \frac 1n \sum_{i=1}^n(X_1-\bar X_n)^2.
+\hat\sigma_n^2 = \frac 1n \sum_{i=1}^n(X_i-\bar X_n)^2.
 $$
 (Hint: Define $g:\RR^2 \to \RR$ as $g(y,z) = y-z^2$ which is a continuous function.)
 }
+\begin{solution}
+  Consider the joint random variable $\left(\frac 1n \sum_{i=1}^n X_i^2, \bar X_n \right)$ and the continuous transformation $g:\RR^2 \to \RR$, $g(y,z) = y - z^2$.  Then, by the statements above and Theorem$^\star$,
+  $$
+  g\left(\frac 1n \sum_{i=1}^n X_i^2, \bar X_n \right) \toprob g\left(E(X^2), \mu\right) = E(X^2) - \mu^2 = \sigma^2.
+  $$
+  We now calculate,
+  \begin{align*}
+    g\left(\frac 1n \sum_{i=1}^n X_i^2, \bar X_n \right)
+    &=\frac 1n\sum_{i=1}^n X_i^2 - \bar X_n^2\\
+    &=\frac 1n\sum_{i=1}^n X_1^2 - 2\bar X_n^2 + \bar X_n^2\\
+    &=\frac 1n\sum_{i=1}^n X_1^2 - 2 \left(\frac 1n \sum_{i=1}^n X_i \right)\bar X_n + \bar X_n^2\\
+    &=\frac 1n \sum_{i=1}^n(X_i-\bar X_n)^2.
+  \end{align*}
+\end{solution}
+
+Theorem$^\star$: Suppose $\vect{Y_n}:\Omega \to \RR^n$ is a random variable such that $\vect{Y_n}\toprob\vect b$.  Then, if $g:\RR^n\to\RR^m$ is a continuous transformation then $g(\vect{Y_n}) \toprob g(\vect b)$.
+\begin{proof}
+  Let $\eps>0$ and $0<\delta<1$.  By continuity of $g$, there exists $\hat \delta >0$ such that if $|\vect y - \vect b| < \hat\delta$ then $|g(\vect y) - g(\vect b)| <\eps$.  In the context of the random variable $Y_n$, $\{e\in\Omega:|\vect{Y_n}(e) - \vect b| < \hat\delta\} \stackrel{\dagger}\subseteq \{e\in\Omega:|g\big(\vect{Y_n}(e)\big) - g(\vect b)|<\eps\}$.  By hypothesis, we can choose $N$ so that if $n\ge N$ implies $  P( |\vect{Y_n} - \vect b| < \hat\delta)\ge 1-\delta$. Note that because of the containment$^\dagger$ mentioned, $P\Big(\{e\in\Omega:|g\big(\vect{Y_n}(e)\big) - g(\vect b)|<\eps\}\Big) \ge P\Big( \{e\in\Omega:|\vect{Y_n}(e) - \vect{b}|< \hat\delta)\}\Big) \ge 1-\delta$, and, thus we have satisfied the desired convergence in probability. 
+\end{proof}
 \newpage
 
-\problem{Suppose that $X_1,\dots,X_n$ form a random sample from a normal distribution with mean 0 and unknown variance $\sigma^2$.  }
+\problem{Supplement 4. Suppose that $X_1,\dots,X_n$ form a random sample from a normal distribution with mean 0 and unknown variance $\sigma^2$.  }
 
 \subproblem{ Determine the asymptotic distribution of the statistic $\left(\frac 1n \sum_{i=1}^n X_i^2\right)^{-1}$.}
 
+\begin{solution}
+Recall that the square of a standard normal random varaible is distributed chi-squared with one degree of freedom.  Hence, $X_i^2/\sigma \sim \chi^2_1$.  Thus, $X_i^2$ is a linear transformation of a chi-squared random variable with one degree of freedom.  I.e. $X_i^2 = \sigma^2 Y_i^2$, where $Y_i\sim \chi_1^2$.  This is a gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r= 1/2$.  To see this, consider its moment generating function
+\begin{align*}
+  M_{\sigma^2 Y_i^2}(t) 
+  & = M_{Y_i^2} (\sigma^2 t)  \\
+  & = \left( \frac{ \frac 12 }{ \frac 12 - \sigma^2 t} \right)^{\frac 12} \\
+  & = \left( \frac{ \frac 1{2\sigma^2} }{ \frac 1{2\sigma^2} - t} \right)^{\frac 12} \\
+  & = M_W(t) \quad\text{ where }W \sim\text{Gamma}(1/2,1/(2\sigma^2)).
+\end{align*}
+Thus, we can think of $X_1^2,X_2^2,...,X_n^2$ as a random sample from gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r=1/2$.  Denote them as $W_i$ and their sample mean as $\bar W$.  The mean and variance of this gamma distribution are given by $\mu_W = r/\lambda = \sigma^2$ and $\sigma_W^2= r/\lambda^2 = 2 \sigma^4$, respectively. If $g(w) = w^{-1}$, then note that $g'(\mu_W) = -1/(\sigma^4) \not= 0$.  By the delta method theorem we have that 
+$$
+  \frac{ \sqrt n \left[(\bar W)^{-1} - (\sigma^2)^{-1}\right]} { \left(-1/\sigma^4\right) \sqrt{2 \sigma^4} } \stackrel{D}{\longrightarrow} Z \sim N(0,1).
+$$
+Hence $\left(\frac 1n \sum_{i=1}^n X_i^2\right)^{-1} = (\bar W)^{-1}$ is asymptotically distributed $N(\sigma^{-2}, \frac 2{n\sigma^4})$ (removing the negative by symmetry of the normal).  
+\end{solution}
+
 \subproblem{ Find a variance stabilizing transformation for the statistic $\frac 1n\sum_{i=1}^n X_i^2$. }
+
+\begin{solution}
+Note that $\sigma_W = \sqrt 2 \sigma^2 = \sqrt 2 \mu_W$. To stabilize the variance, we seek $g$ such that 
+\begin{align*}
+  1 = g'(\mu_W) \sigma_w \iff g(\mu_W) = \int \sigma_w^{-1} d\mu_W 
+  &= \frac 1{\sqrt 2}\int \mu_W^{-1}\,d\mu_W\\
+  &= \frac 1{\sqrt 2}(\ln |\mu_W| + c).
+\end{align*}
+Hence, if we transform the data by $g(W) = \ln(W)$, we can expect that the variance the of the transformed asymptotic distribution will not depend on the mean. 
+\end{solution}
+
 \end{document}
 

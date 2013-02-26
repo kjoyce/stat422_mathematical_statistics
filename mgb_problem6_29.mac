@@ -1,0 +1,16 @@
+assume(w>0);
+assume(v>0);
+assume(sigma>0);
+assume(n1>0);
+assume(n2>0);
+g(x):=[x[1]/sqrt(x[2]),x[3]/x[2],x[3]];
+gi(u):=[u[1]*sqrt(u[3]/u[2]),u[3]/u[2],u[3]];
+ratsimp(g(gi([x,y,z])));
+ginv:gi([u,v,w]);
+jacobian(gi([u,v,w]),[u,v,w]);
+jac:abs(determinant(%));
+gn(x):=1/(\sigma^2*sqrt(2*%pi))*exp(-x^2/(\sigma^2*2));
+chsq(x,n):=x^((n-2)/2)*exp(-x/2)/2^(n/2)/gamma(n/2);
+jpdf:jac*gn(ginv[1])*chsq(ginv[2],n2)*chsq(ginv[3],n1);
+pdf:integrate(jpdf,w,0,inf);yes;yes;
+factor(pdf);

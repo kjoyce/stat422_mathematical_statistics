@@ -236,3 +236,5 @@
   \hangafter=0
   \textbf{(\alph{spnum})} {\ifdef{\@showsolutions}{\it}{} #1 \par }
 }
+
+\ProcessOptions\relax
