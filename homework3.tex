@@ -24,7 +24,7 @@ $$
 has a beta distribution.
 }
 \begin{solution}
-  Note that except for $W\not=0$, $W$ is a transformation of $X$ by $g:(0,\infty)\to(0,1)$ where
+  Note that $W$ is a transformation of $X$ by $g:(0,\infty)\to(0,1)$ where
   $$
     g(x) = \frac{mx/n}{1+mx/n}.
   $$
@@ -112,7 +112,7 @@ Distributing $\sigma^{-2}$, we have that this is the sum of independent Chi-squa
 
 \subproblem{What is the distribution of $(\frac 12) (\bar X_k + \bar X_{n-k})$?}
 
-We have that $\bar X_k \sim N(\mu,\sigma^2/k)$ and $\bar X_{n-k} \sim N(\mu,\frac {\sigma^2}{n-k})$.  Hence, by indpendence, their sum is distributed $N\Big(2\mu, \frac{\sigma^2n}{k(n-k)}\Big)$ since $\frac 1k + \frac 1{n-k} = \frac n{k(n-k)}$.  Finally, multiplying by $1/2$ yields a distribution of $N\Big(\mu, \frac{\sigma^2}{4}(\frac{\sigma^2n}{k(n-k)})\Big)$.
+We have that $\bar X_k \sim N(\mu,\sigma^2/k)$ and $\bar X_{n-k} \sim N(\mu,\frac {\sigma^2}{n-k})$.  Hence, by independence, their sum is distributed $N\Big(2\mu, \frac{\sigma^2n}{k(n-k)}\Big)$ since $\frac 1k + \frac 1{n-k} = \frac n{k(n-k)}$.  Finally, multiplying by $1/2$ yields a distribution of $N\Big(\mu, \frac{\sigma^2}{4}(\frac{\sigma^2n}{k(n-k)})\Big)$.
 
 \subproblem{What is the distribution of $\sigma^{-2}(X_i - \mu)$?}
 
@@ -150,7 +150,7 @@ Since $\bar X\sim N(1,\frac 12)$ and $\bar Z \sim N(0,\frac 12)$, the linear com
 
 The linear combination $Y = Z_1 + Z_2$ is distributed $N(0,2)$. Hence, $Y/\sqrt2 \sim N(0,1)$.
 
-Notice that the sample variance of $X_1,X_2$ is $\SS_X^2=(X_1 - \bar X)^2 + (X_2 - \bar X)^2 = \big[(X_1 - X_2)/2\big]^2+\big[(X_1 - X_2)/2\big]^2 = (X_2 - X_1)^2/2$.  Similarly the sample variance for $Z_1,Z_2$ is $\SS_Z^2=(Z_2 - Z_1)^2/2$. Since $\sigma^2=1$ and there's 1 degree of freedom $\SS^2_Z$ and $\SS^2_X$ are identically distributed $\chi^2_1$. They are indepenent as functions of independent samples.  Thus, their sum, $U = \SS_X^2 + \SS_Z^2$ is distributed $\chi^2_2$. 
+Notice that the sample variance of $X_1,X_2$ is $\SS_X^2=(X_1 - \bar X)^2 + (X_2 - \bar X)^2 = \big[(X_1 - X_2)/2\big]^2+\big[(X_1 - X_2)/2\big]^2 = (X_2 - X_1)^2/2$.  Similarly the sample variance for $Z_1,Z_2$ is $\SS_Z^2=(Z_2 - Z_1)^2/2$. Since $\sigma^2=1$ and there's 1 degree of freedom $\SS^2_Z$ and $\SS^2_X$ are identically distributed $\chi^2_1$. They are independent as functions of independent samples.  Thus, their sum, $U = \SS_X^2 + \SS_Z^2$ is distributed $\chi^2_2$. 
 
 Now, the random variable in question is
 $$
@@ -175,12 +175,12 @@ $$
 \newpage
 
 
-\problem{MGB VI.27 If $X_1,X_2,...,X_n$ are indepently and normally distributed with the same mean but different variances $\sigma_1^2, \sigma_2^2,...,\sigma_n^2$ and assuming that 
+\problem{MGB VI.27 If $X_1,X_2,...,X_n$ are independently and normally distributed with the same mean but different variances $\sigma_1^2, \sigma_2^2,...,\sigma_n^2$ and assuming that 
 $$
 U = \frac{\sum_{i=1}^n X_i/\sigma_i^2}{\sum_{i=j}^n 1/\sigma_j^2}\quad\text{and}\quad
 V = \sum_{i=1}^n\frac{(X_i - U)^2}{\sigma_i^2}  
 $$
-are independently distributed, show that $U$ is normal and $V$ has the chi-square distribution with $n-1$ degrees of feedom.
+are independently distributed, show that $U$ is normal and $V$ has the chi-square distribution with $n-1$ degrees of freedom.
 }
 \begin{solution}
   Note that $U$ is a linear combination of normal random variables, hence its distribution is given by 
@@ -384,7 +384,7 @@ Theorem$^\star$: Suppose $\vect{Y_n}:\Omega \to \RR^n$ is a random variable such
 \subproblem{ Determine the asymptotic distribution of the statistic $\left(\frac 1n \sum_{i=1}^n X_i^2\right)^{-1}$.}
 
 \begin{solution}
-Recall that the square of a standard normal random varaible is distributed chi-squared with one degree of freedom.  Hence, $X_i^2/\sigma \sim \chi^2_1$.  This is a gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r= 1/2$ (by MGB VI.29 Lemma \ref{lem1}).  
+Recall that the square of a standard normal random variable is distributed chi-squared with one degree of freedom.  Hence, $X_i^2/\sigma \sim \chi^2_1$.  This is a gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r= 1/2$ (by MGB VI.29 Lemma \ref{lem1}).  
 
 Thus, we can think of $X_1^2,X_2^2,...,X_n^2$ as a random sample from gamma distribution with $\lambda = 1/(2\sigma^2)$ and $r=1/2$.  Denote them as $W_i$ and their sample mean as $\bar W$.  The mean and variance of this gamma distribution are given by $\mu_W = r/\lambda = \sigma^2$ and $\sigma_W^2= r/\lambda^2 = 2 \sigma^4$, respectively. If $g(w) = w^{-1}$, then note that $g'(\mu_W) = -1/(\sigma^4) \not= 0$.  By the delta method theorem we have that 
 $$
