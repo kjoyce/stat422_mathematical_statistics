@@ -1,0 +1,151 @@
+\documentclass{stat_homework}
+\usepackage{cancel}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{upgreek}
+\newtheorem{lemma}{Lemma}
+
+\title{Kevin Joyce}
+\course{Stat 422: Mathematical Statistics HW 4}
+\author{Kevin Joyce}
+\docdate{\today}
+\begin{document} 
+\renewcommand{\bar}{\overline}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\SS}{\mathcal S}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\todist}{\stackrel{D}\longrightarrow}
+\newcommand{\toprob}{\stackrel{p}\longrightarrow}
+\newcommand{\TTheta}{\overline{\underline \Theta} }
+
+\problem{MGB VII.1. An urn contains black and white balls.  A sample of size $n$ is drawn with replacement.  What is the maximum-likelihood estimator of the ratio $R$ of black to white balls in the urn?  Suppose that one draws balls one by one with replacement until a black ball appears.  Let $X$ be the number of draws required (not counting the last draw).  This operation is repeated $n$ times to obtain a sample $X_1,X_2,\dots,X_n$.  What is the maximum-likelihood estimator of $R$ on the basis of this sample?}
+\begin{solution}
+  Since the urn contains both black and white balls, the ratio $R>0$.
+  Let $Y$ be the random variable that distinguishes the color of the ball by 
+  $$
+    Y = \begin{cases}
+      1 &\text{ if black,}\\
+      0 &\text{ if white.}
+    \end{cases}
+  $$
+  Then, if $R$ is the proportion of black balls to white, $Y\sim Bernoulli\left(\frac{R}{R+1}\right)$.  Let $R = \tau(p) = \frac{p}{1-p}$, then note that $\frac{R}{R+1} = p$.  Since the MEL for a random sample from a Bernoulli distribution is known to be $\bar Y$, by the invariance of maximum likelihood, the MLE for $R$, $\hat R = \frac{\bar Y}{1 - \bar Y}$.
+
+Now, let $X$ be the number of white balls selected until a black is drawn.  This is known to be a negative binomial random variable with one success (i.e. a geometric random variable).  Hence the log-likelihood function for $X$ is given by
+\begin{align*}
+  \ell(R |_{X_1=x_1\dots X_n=x_n}) &= n\log \left(\frac{R}{R+1}\right) + \sum_{i=1}^n x_i \log\left(1 - \frac{R}{R+1}\right) \\
+  &= n \log \left(\frac{R}{R+1}\right) + \sum_{i=1}^n x_i  \log\left(\frac{1}{R+1}\right),
+\end{align*}
+whose derivative with respect to $R$ is given by
+\begin{align*}
+  \frac{d\ell}{dR} &= n\frac{\cancel{(R+1)}}{R}\cdot \frac{(R+1) - R}{(R+1)^{\cancel2}} - \sum_{i=1}^n x_i\cdot \cancel{(R+1)}\frac{1}{(R+1)^{\cancel2}}\\
+		   &= \frac{n-R\sum x_i }{R(R+1)}.
+\end{align*}
+Note that $\frac{d\ell}{dR} > 0$ for $0<R<\bar X$, and $\frac{d\ell}{dR} < 0$ for $R > \bar X$ and $\frac{d\ell}{dR}=0$ for $R = \bar X$.  Hence, the MLE is $\hat R = \bar X$. 
+\end{solution}
+\newpage
+
+\problem{MGB VII.11 Let $X_1,\dots,X_n$ be a random sample from some density which has mean $\mu$ and variance $\sigma^2$.}
+
+\subproblem{ Show that $\ds{\sum_{i=1}^na_i X_i}$ is an unbiased estimator of $\mu$ for any set of known constants $a_1,\dots,a_n$ satisfying $\ds{\sum_{i=1}^na_i =1}$ }
+\begin{solution}
+  Note that by linearity
+  $$
+  E\left[\sum_{i=1}^na_i X_i \right] = \sum_{i=1}^n a_i E[X_i] = \sum_{i=1}^n a_i \mu = \mu.
+  $$
+  Hence $\sum_{i=1}^n a_i X_i$ is an unbiased estimator for $\mu$.
+\end{solution}
+\subproblem{ If $\ds{\sum_{i=1}^n a_i = 1}$, show that $\ds{Var\left[\sum_{i=1}^n a_i X_i \right]}$ is minimized for $a_i = 1/n,\, i=1,\dots,n$. \Hint Prove that $\ds{\sum_{i=1}^na_i^2 = \sum_{i=1}^n(a_i-1/n)^2 + 1/n\text{ when }\sum_{i=1}^n a_i =1}$.}
+
+\begin{solution}
+  Let us first prove the hint. That is,
+  $$
+    \sum_{i=1}^n (a_i - 1/n)^2 = \sum_{i=1}^n a_i^2 - 2 \sum_{i=1}^n \frac{a_i}{n} + n \frac 1{n^2} = \sum_{i=1}^n a_i^2 - 1/n.
+  $$
+  Now,
+  \begin{align*}
+  Var\left[\sum_{i=1}^n a_i X_i\right] &= E\left[ \left(\sum_{i=1}^n a_i X_i\right)^2 \right] - \mu^2 \\
+  &= E\left[\sum_{i=j} a_i^2 X_i^2\right] + \cancel{ E\left[\sum_{i\not=j} a_i a_j X_i X_j\right]} - \mu^2& \text {by independence,}\\
+  &= \left(\sum_{i=1}^n(a_i-1/n)^2 + 1/n \right) E\left[X_i^2\right] - \mu^2& \text {by the hint.}
+  \end{align*}
+
+  The right hand side is minimized when the factor $\Big( \cdot \Big)$ is minimized, and this quadratic form is minimized when $\sum (a_i - 1/n)^2 = 0$ if and only if $a_i = 1/n$ for all $i$.
+\end{solution}
+
+\newpage
+
+\problem{MGB VII.12[a,b,c] Let $X_i,\dots,X_n$ be a random sample from the discrete density function $f(x;\theta)=\theta^x(1-\theta)^{1-x}I_{\{0,1\}}(x)$, where $0\le\theta\le1/2$.  Note that $\TTheta = \{\theta :\, 0\le\theta\le\frac12\}$. }
+
+\subproblem{ Find a method-of-moments estimator $\theta$, and then find the mean and mean-squared error of your estimator.}
+
+\begin{solution}
+Note that $f$ is the pdf for a Bernoulli distribution where $\theta$ is chosen among $p$ and $1-p$ so that $0<\theta<1/2$.  Hence $\mu = \theta$.  Matching this with the first raw sample moment, we have that the MOM estimator is $\hat\Uptheta_1 =  \vartheta_1(X_1,\dots,X_n) = \bar X$.
+
+This statistic is clearly unbiased, hence the $MSE_{\vartheta_1}(\theta) = Var\big[\,\bar X \,\big] = \frac{\theta(1-\theta)}{n}$.
+\end{solution}
+
+\subproblem{Find a maximum-likelihood estimator of $\theta$, and then find the mean and mean-squared error of your estimator. }
+
+%\begin{solution}
+%
+%  Note that $\theta = \tau(p) := \min\{p,1-p\}$ where $0<p<1$ and that $p$ is in the parameter space for the standard Bernoulli distribution. Using the established fact that the $MLE$ for $p$ in a standard Bernoulli random variable is $\bar X$, we invoke the invariance of maximum likelihood to obtain a maximum likelihood estimate for $\theta$
+%  $$
+%    \hat \Uptheta_2 = \tau ( \bar X ) = \min\{ \bar X, 1- \bar X\}
+%  $$
+%\end{solution}
+%
+%\subproblem{ Which estimator is preferred? Justify your answer. }
+%
+\newpage
+
+\problem{MGB VII.44[b,c] Let $X_1,\dots,X_n$ be a random sample from $$
+  f(x;\theta) = e^{-(x-\theta)}I_{[\theta,\infty)}(x)\quad\text{ for }-\infty < \theta <\infty.
+$$}
+
+\subproblem{ Find a maximum-likelihood estimator of $\theta$. }
+
+Consider the liklihood function
+\begin{align*}
+  L(\theta|_{x_1\dots x_n}) &= \prod_{i=1}^n e^{-x_i + \theta}I_{[\theta,\infty)} (x_i)\\
+    &= e^{n\theta} e^{-\sum x_i} &\text{ for $x_i \in [\theta,\infty)$ and $0$ otherwise}.
+\end{align*}
+
+Note that this is an exponentially increasing function in $\theta$.  Also, since $x_1\dots x_n$ are given values of $X_1,\dots,X_n$, we have that $\theta \le \min \{x_1\dots x_n\}$.  Hence, $\hat \theta = \min\{x_1,\dots,x_n\}$ maximizes the likelihood.
+
+\subproblem{ Find a method-of-moments estimator of $\theta$. }
+
+The first raw moment is 
+\begin{align*}
+  \mu &= \int_\theta^\infty x e^{-(x-\theta)}dx \\
+  &= \int_0^\infty (u + \theta) e^{-u}du \\
+  &= \Gamma(2) + \theta \Gamma(1)\\
+  &= 1+\theta.
+\end{align*}
+Matching moments, $\bar X = 1+ \hat \Uptheta_2$, we estimate $\hat \Uptheta_2 = \bar X -1$.  Note that this is different than the $MOM$ estimate.
+\newpage
+
+\problem{MGB VII.54[b] Let $X_1,\dots,X_n$ be a random sample from the density
+$$
+  f(x;\alpha,\theta ) = (1-\theta)\theta^{x-\alpha}I_{\alpha+\ZZ^+}(x),
+$$
+where $-\infty<\alpha<\infty$, and $0<\theta<1$, and $\alpha + \ZZ^+ := \{\alpha,\alpha+1,\dots\}$. Find the maximum-likelihood estimator of $(\alpha,\theta)$.}
+
+Consider the likelihood function with $\theta$ fixed in $0<\theta<1$.
+$$
+  L(\alpha|_{\theta,x_1,\dots,x_n}) = (1-\theta)^n \theta^{\sum x_i} \theta^{ - n\alpha}\prod_{i=1}^n I_{\alpha + \ZZ^+}(x_i).
+$$
+Note that $L$ non-zero only when it is a positive integer multiple of $\min\{x_1,\dots,x_n\}$.  That is $I_{\alpha + \ZZ^+} (x_i) = I_{x^* + \ZZ^+}(\alpha)$ where $x^* = \min\{x_1,\dots,x_n\}$. Moreover, $\theta^{-na}$ decreases on the support of $\alpha$.  Hence $L|_{\theta}$ is maximized when $\hat \alpha = \min\{x_1,\dots,x_n\}$ for all $0<\theta<1$ .
+
+We now fix $\hat \alpha$ and and maximize with respect to $\theta$.  
+That is the the derivative of the likelihood function given $\hat \alpha$ is
+\begin{align*}
+  \frac{dL|_{\hat \alpha}}{d\theta} &= -n(1-\theta)^{n-1} \theta^{\sum x_i - n\alpha} + \left(\sum x_i -n\alpha\right)(1-\theta)^n \theta^{\sum x_i -n\alpha -1}\\
+  &= \theta^{\sum x_i -n\alpha -1}(1-\theta)^{n-1}\left[\theta n +\left(\sum x_i -n\alpha\right) (1-\theta)\right].
+\end{align*}
+
+This quantity is $0$ only when $\hat \theta = \frac1n \sum x_i$.  Moreover for $\frac{dL}{d\theta} > 0$ for $0<\theta < \hat \theta$ and $\frac{dL}{d\theta} < 0$ for $\hat\theta< \theta <1$, hence this is a maximum for $0<\theta<1$.  Hence, the $MLE$ is
+$$
+\hat{(\alpha,\theta)} = \left(\min\{x_1,\dots,x_n\},\bar X\right).
+$$ 
+\end{document}
+
+
