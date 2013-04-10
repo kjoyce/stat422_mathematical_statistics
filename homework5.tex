@@ -1,0 +1,161 @@
+\documentclass{stat_homework}
+\usepackage{cancel}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{upgreek}
+\newtheorem{lemma}{Lemma}
+
+\title{Kevin Joyce}
+\course{Stat 422: Mathematical Statistics HW 5}
+\author{Kevin Joyce}
+\docdate{\today}
+\begin{document} 
+\renewcommand{\bar}{\overline}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\SS}{\mathcal S}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\todist}{\stackrel{D}\longrightarrow}
+\newcommand{\toprob}{\stackrel{p}\longrightarrow}
+\newcommand{\TTheta}{\overline{\underline \Theta} }
+\newcommand{\del}{\partial}
+
+\problem{ MGB VII.29[a,b,c,d,e] Let $X_1,\dots,X_n$ be a random sample from $N(\theta,1)$.  }
+
+\subproblem{ Find the Cram\'er-Rao lower bound for the variance of unbiased estimators of $\theta,\theta^2$ and $P[X>0]$.}
+\begin{solution}
+  Let us first calculate
+  \begin{align*}
+    \left[\frac{\del}{\del\theta} \log f(x|\theta)\right]^2 
+    &= \left[ \frac{\del}{\del\theta} \log \left( \frac{1}{\sqrt{2\pi}} e^{-(x-\theta)^2/2} \right) \right]^2 \\
+    &= \left[ \frac{\del}{\del\theta} \left(\frac{(x-\theta)^2}{2} - \log(\sqrt{2\pi})\right) \right]^2\\
+    &= (x-\theta)^2
+  \end{align*}
+  So for a given $\tau(\theta)$ and any estimator $T$, the Cram\'er-Rao lower bound is given by 
+  \begin{align*}
+    Var_\theta(T) &\ge \frac{ [\tau(\theta)]^2 }{ n E_\theta \left[\frac{\del}{\del\theta} \log f(x|\theta)\right]^2 }\\
+    & = \frac{ [\tau(\theta)]^2 }{ n E_\theta [x-\theta ]^2 }\\
+    & = \frac{ [\tau(\theta)]^2 }{ n }
+  \end{align*}
+  So, in the case of $\tau(\theta) = \theta$, the lower bound for any given estimator is $1/n$. When $\tau(\theta) = \theta^2$, the lower bound is $4\theta^2/n$. Finally, note that $ P[X > 0] = P[X-\theta > -\theta] = 1-\Phi(-\theta) = \Phi(\theta),$ where $\Phi$ is the c.d.f. for the standard normal distribution.  So, the lower bound for an estimate for this parameter is $\ds{\frac{\phi(\theta)^2}n = \frac{e^{-x^2}}{n\sqrt{2\pi}}}$
+\end{solution}
+
+
+\subproblem{ Is there an unbiased estimator of $\theta^2$ for $n=1$?  If so, find it. }
+
+\begin{solution} 
+  Consider $\hat\Uptheta = X_1^2 - 1$, and note $E_\theta[X_1^2 - 1] = E_\theta[X_1^2] - 1= (1 - \theta^2) -1 = \theta^2$.  Hence, $\hat\Uptheta$ is unbiased.
+\end{solution}
+
+\subproblem{ Is there an unbiased estimator of $P[X>0]$? If so, find it. }
+
+\begin{solution}
+  Consider $\hat\Uptheta = (1/n)\sum I_{[0,\infty)}(X_i)$, and note $E_\theta \left[(1/n)\sum I_{[0,\infty)}(X_i)\right] = 1/n\sum E_\theta [I_{[0,\infty)}(X_i)]=(1/n) \sum P[ X_i > 0] = P[X>0]$.
+\end{solution}
+
+\subproblem{ What is the maximum-likelihood estimator of $P[X>0]$? }
+
+Recall that $\bar X$ is a maximum likelihood estimator for $\theta$, so by invariance $\Phi(\bar X)$ is a maximum likelihood estimator for $P[X>0] = \Phi(\theta)$.
+\newpage
+
+\subproblem{ Is there a UMVUE of $\theta^2$? If so, find it. }
+\begin{solution}
+  Note that 
+  $$
+    f(x|\theta)=\frac{1}{\sqrt{2\pi}} e^{-(x-\theta)^2/2} = 
+      \left( \frac{e^{-\theta^2/2}}{\sqrt{2\pi}}\right) 
+      \left( e^{-x^2/2} \right) 
+      \exp(\theta \cdot x)
+  $$
+  Hence $\sum X_i$ is a complete sufficient statistic.  By the Lehmann-Scheff\'e theorem, the UMVUE is given by an unbiased estimate of $\theta^2$ which is a function of $\sum X_i$.  Since $X_1^2 - 1$ is an unbiased estimator of $\theta^2$, such a function is given by (the argument $\dagger$ is due to a generous hint from Jack Lelko)
+  \begin{align*} 
+    E_\theta \left[ X_1^2 - 1 \middle| \sum X_i = s\right]
+    &\stackrel{\dagger}= E_\theta \left[ \Big(\left(X_1 - \bar X \right) + \bar X\Big)^2 \middle| \sum X_i = s\right] - 1 \\
+    &= E_\theta \left[ \left( X_1 - \bar X\right)^2  \middle| \sum X_i = s\right] - \cancelto{0}{2 E_\theta \left[ (X_1 - \bar X) \bar X \middle| \sum X_i = s\right]} + \dots\\
+    & \quad\quad\quad E_\theta \left[ \bar X^2 \middle| \sum X_i = s\right] - 1 \\
+    &= \frac{n-1}{n} - (s/n)^2 - 1,
+  \end{align*}
+  where $E_\theta \left[ \left( X_1 - \bar X\right)^2  \middle| \sum X_i = s\right]$ since $1\cdot (n-1) = E_\theta\left[\sum(X_i-\bar X)^2\right] = \sum E_\theta[X_1-\bar X]^2 = n E_\theta [X_1 - \bar X]^2$.
+
+  So the UMVUE is 
+  $$
+  \hat \Uptheta = \frac{n-1}{n} - \bar X^2 -1.
+  $$
+\end{solution}
+\newpage
+
+\problem{ MGB VII.30 For a random sample from the Poisson distribution, find an unbiased estimator of $\tau(\lambda) = (1+\lambda)e^{-\lambda}$.  Find a maximum-likelihood estimator of $\tau(\lambda)$.  Find the UMVUE of $\tau(\lambda)$.}
+\begin{solution}
+  Consider the estimator $t(X_1,\dots,X_n) = I_{\{0,1\}}(X_1)$, and note $E[I_{\{0,1\}} (X_1) = e^{-\lambda} + \lambda e^{-\lambda} = (1+\lambda)e^{-\lambda}$.  Hence, the estimator is unbiased.
+
+Now, recall that $\bar X$ is a maximul likelihood estimator for $\lambda$. So, by invariance, $(1+\bar X) e^{\bar X}$ is a maximum liklihood estimator for $(1+\lambda)e^{-\lambda}$.
+
+  Note that the p.d.f. of a Poisson distribution is $f(x|\lambda) = e^{-\lambda}\lambda^x/x! = e^{-\lambda}\big(\frac{1}{x!}I_{\ZZ^+}(x)\big)e^{-\ln(\lambda) x}$, so it is of the exponential family.  Hence $S:=\sum X_i$ is a complete sufficent statistic.  By the Lehmann-Scheff\'e theorem, an unbiased estimator that is a function of this statistic is the UMVUE for $\tau(\lambda)$. Such a statistic is given by
+  \begin{equation}
+    E\left[ I_{\{0,1\}}(X_1) \middle| \sum X_i = s\right]. 
+    \label{exp1}
+  \end{equation}
+
+  We evaluate this expectation by first finding the conditional distribution of $I_{\{0,1\}}(X_1) | \sum X_1 = s$.  It can take on only $0$ or $1$, hence we evaluate the probabilities
+{\small
+  \begin{align*}
+    P\left[ X_1 = 0 \middle| \sum_{i=1}^n X_i = s\right] 
+    &= \frac{\ds{ P\left[ X_1 = 0 ; \sum_{i=1}^n X_i = s\right] }}{\ds{ P\left[ \sum_{i=1}^n X_i = s\right] }}\\
+    &= \frac{\ds{ P\left[ X_1 = 0 \right]\cdot P\left[ \sum_{i=2}^n X_i = s\right] }}{\ds{ P\left[ \sum_{i=1}^n X_i = s\right] }}\\
+    &=\frac{e^{-\lambda}\cdot \Big[e^{-(n-1)\lambda}\big((n-1)\lambda\big)^s/s!\Big]}{e^{-n\lambda}(n\lambda)^s/s!}\\
+    &=\left( \frac{n-1}{n} \right)^s,
+    \intertext{ and }
+    P\left[ X_1 = 1 \middle| \sum_{i=1}^n X_i = s\right] 
+    &= \frac{\ds{ P\left[ X_1 = 1 \right]\cdot P\left[ \sum_{i=2}^n X_i = s-1\right] }}{\ds{ P\left[ \sum_{i=1}^n X_i = s\right] }}\\
+    &=\frac{e^{-\lambda}\lambda \cdot \Big[e^{-(n-1)\lambda}\big((n-1)\lambda\big)^{s-1}/(s-1)!\Big]}{e^{-n\lambda}(n\lambda)^s/s!} = s\frac{(n-1)^{s-1}}{n^s}\\
+  \end{align*}
+  Hence the statistic \eqref{exp1} is 
+  $$
+    E\left[ I_{\{0,1\}}(X_1) \middle| \sum X_i = S\right] = \left( \frac{n-1}{n} \right)^S +  S\frac{(n-1)^{S-1}}{n^S},\quad\text{ where }S=\sum X_i.
+  $$
+}
+\end{solution}
+
+\problem{ MGB VII.36 Show that
+$$
+  E_\theta\left[\left(\frac{\del}{\del\theta} \log f(X|\theta)\right)^2\right] = - E_\theta\left[\frac{\del^2}{\del\theta^2} \log f(X|\theta)\right],
+$$}
+assuming that $f(X|\theta)$ has sufficiently bounded derivatives to allow the interchange of the operators $E_\theta$ and $\frac{\del^2}{\del\theta^2}$
+\begin{solution}
+  We begin by evaluating the right hand side,
+  \begin{align*}
+    E_\theta\left[ \frac{\del^2}{\del\theta^2} \log f(X|\theta) \right] 
+    &= -E_\theta\left[ \frac{\del}{\del\theta} \left(\frac{1}{f(X|\theta)}\cdot \frac{\del}{\del\theta} f(X|\theta)\right) \right] \\
+    &= -E_\theta\left[ \frac{-1}{f(X|\theta)^2} \left(\frac{\del}{\del\theta}f(X|\theta)\right)^2 + \frac{\del^2}{\del\theta^2} f(X|\theta) \right] \\
+    &= E_\theta\left[ \left(\frac{1}{f(X|\theta)} \frac{\del}{\del\theta}f(X|\theta)\right)^2\right] + \cancelto{0}{\frac{\del^2}{\del\theta^2} E_\theta \left[ f(X|\theta) \right] } \\
+    &= E_\theta\left[ \left(\frac{\del}{\del\theta} \log f(X|\theta)\right)^2\right] \\
+  \end{align*}
+\end{solution}
+\newpage
+
+\problem{MGB VII.43[a, b, c] Let $Z_1,\dots,Z_n$ be a random sample from $N(0,\theta^2), \theta>0$.  Define $X_i = |Z_i|$, and consider estimation of $\theta$ and $\theta^2$ on the basis of the random sample $X_1,\dots,X_n$.}
+
+\subproblem{Find the UMVUE of $\theta^2$ if such exists. }
+
+%\begin{solution}
+%  The p.d.f. of $X_i$ is given by $ 2\phi_{0,\theta^2}(x)I_{(0,\infty)}(x) $
+%  , since 
+%  $$
+%    M_{2I_{(0,\infty)}(X)}(t) = 
+%  $$
+%\end{solution}
+%
+\subproblem{Find an estimator of $\theta^2$ that has uniformly smaller mean-squared error than the estimator that you found in part (a)}
+
+\subproblem{Find the UMVUE of $\theta$ if such exists. }
+
+\newpage
+
+\problem{MGB VII.52 Let $\theta$ be the true I.Q. of a certain student.  To measuer his I.Q., the student takes a test, and it is known that his test scores are normally distributed with mean $\mu$ and standard deviation 5.}
+
+\subproblem{ The student takes the I.Q. test and gets a score of 130.  What is the maximum-likelihood estimate of $\theta$? }
+
+\subproblem{ Suppose that it is known that I.Q.'s of students of a certain age are distributed normally with mean 100 and variance 225; that is, $\Uptheta \sim N(100,225)$.  Let $X$ denote a student's test score [$X$ is distributed $N(\theta,25)$].  Find the posterior distribution of $\Uptheta$ given $X=x$.  What is the posterior Bayes estimate of the student's I.Q. if $X=130$?}
+
+\end{document}
+
+
